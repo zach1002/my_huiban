@@ -8,7 +8,7 @@
                 <el-icon :size="20" class="svg-container">
                     <User />
                 </el-icon>
-                <el-input v-model="form.name"></el-input>
+                <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-icon :size="20" class="svg-container">
@@ -20,20 +20,21 @@
                 </el-icon>
                 <el-icon :size="20" class="svg-container" @click="changeType" v-else>
                     <View />
-                </el-icon>                
+                </el-icon>
             </el-form-item>
             <el-button type="primary" class="login-button" @click="handleLogin">登陆</el-button>
-        </el-form>  
+        </el-form>
     </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { login } from '@/api/login'
 import { User, Lock, View, Hide } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router';
+import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElMessage } from 'element-plus';
 const form = ref({
-    username: '',
-    password: ''
+    username: 'admin',
+    password: '123456'
 })
 
 //表单校验，验证用户名密码是否符合规则
@@ -42,31 +43,30 @@ const rules = ref({
         {
             required: true,
             message: 'Please input Activity name',
-            trigger: 'blur',            
+            trigger: 'blur',
         }
-    ], 
+    ],
     password: [
         {
             required: true,
             message: 'Please input Activity name',
-            trigger: 'blur',            
+            trigger: 'blur',
         }
-    ]   
+    ]
 })
 
 //统一校验
 const formRef = ref(null)
+const router = useRouter();
+// 处理登录
 const handleLogin = () => {
-    formRef.value.validate(async (valid) => {
-          if (valid) {
-            //alert('submit!');
-            await login(form.value)
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-    });    
-}
+   // 静态验证用户名和密码
+    if (form.value.username === 'admin' && form.value.password === '123456') {
+        router.push('/welcome'); // 假设登录成功后跳转到 '/' 路径
+    } else {
+        ElMessage.error('用户名或密码错误');
+    }
+};
 
 const passwordType = ref('password')
 const changeType = () => {

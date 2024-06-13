@@ -11,8 +11,13 @@ const routes = [
     path: '/',
     name: '/',
     component: () => import('../layout'),
-    redirect: '/users',
+    redirect: '/login',
     children: [
+      {
+        path: 'welcome',
+        name: 'welcome',
+        component: () => import('@/views/welcome/index.vue')
+      },
       {
         path: 'users',
         name: 'users',
