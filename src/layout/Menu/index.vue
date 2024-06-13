@@ -45,11 +45,11 @@
 <script setup>
 import variables from '@/styles/variables.module.scss'
 
-//const defaultActive = ref(sessionStorage.getItem('path') || '/users')
-//const savePath = (path) => {
+// const defaultActive = ref(sessionStorage.getItem('path') || '/users')
+// const savePath = (path) => {
 //  sessionStorage.setItem('path', `/${path}`)
-//}
+// }
 </script>
 
-<style lang="scss" scoped>    
+<style lang="scss" scoped>
 </style>

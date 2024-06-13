@@ -11,7 +11,7 @@ const routes = [
     path: '/',
     name: '/',
     component: () => import('../layout'),
-    redirect: '/users',
+    redirect: '/login',
     children: [
       {
         path: 'users',

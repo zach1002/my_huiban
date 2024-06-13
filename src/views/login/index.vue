@@ -8,7 +8,7 @@
                 <el-icon :size="20" class="svg-container">
                     <User />
                 </el-icon>
-                <el-input v-model="form.name"></el-input>
+                <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-icon :size="20" class="svg-container">
@@ -20,10 +20,10 @@
                 </el-icon>
                 <el-icon :size="20" class="svg-container" @click="changeType" v-else>
                     <View />
-                </el-icon>                
+                </el-icon>
             </el-form-item>
             <el-button type="primary" class="login-button" @click="handleLogin">登陆</el-button>
-        </el-form>  
+        </el-form>
     </div>
 </template>
 
@@ -32,50 +32,53 @@ import { ref } from 'vue'
 import { login } from '@/api/login'
 import { User, Lock, View, Hide } from '@element-plus/icons-vue'
 const form = ref({
-    username: '',
-    password: ''
+  username: '',
+  password: ''
 })
 
-//表单校验，验证用户名密码是否符合规则
+// 表单校验，验证用户名密码是否符合规则
 const rules = ref({
-    username: [
-        {
-            required: true,
-            message: 'Please input Activity name',
-            trigger: 'blur',            
-        }
-    ], 
-    password: [
-        {
-            required: true,
-            message: 'Please input Activity name',
-            trigger: 'blur',            
-        }
-    ]   
+  username: [
+    {
+      required: true,
+      message: 'Please input Activity name',
+      trigger: 'blur'
+    }
+  ],
+  password: [
+    {
+      required: true,
+      message: 'Please input Activity name',
+      trigger: 'blur'
+    }
+  ]
 })
 
-//统一校验
+// 统一校验
 const formRef = ref(null)
 const handleLogin = () => {
-    formRef.value.validate(async (valid) => {
-          if (valid) {
-            //alert('submit!');
-            await login(form.value)
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-    });    
+  formRef.value.validate(async (valid) => {
+    if (valid) {
+      // alert('submit!');
+      const loginForm = {
+        userAccount: form.value.username,
+        userPassword: form.value.password
+      }
+      await login(loginForm)
+    } else {
+      console.log('error submit!!')
+      return false
+    }
+  })
 }
 
 const passwordType = ref('password')
 const changeType = () => {
-    if (passwordType.value === 'password') {
-        passwordType.value = 'text'
-    }
-    else {
-        passwordType.value = 'password'
-    }
+  if (passwordType.value === 'password') {
+    passwordType.value = 'text'
+  } else {
+    passwordType.value = 'password'
+  }
 }
 </script>
 
@@ -87,7 +90,6 @@ const changeType = () => {
   -o-appearance: $value;      // Older versions of Opera
   appearance: $value;
 }
-
 
 $bg: #2d3a4b;
 $dark_gray: #889aa4;

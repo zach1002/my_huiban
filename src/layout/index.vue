@@ -12,7 +12,7 @@
         </el-container>
       </el-container>
     </div>
-</template>  
+</template>
 
 <script setup>
 import Menu from './Menu'
