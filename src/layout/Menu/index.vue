@@ -3,41 +3,21 @@
         active-text-color="#ffd04b"
         :background-color="variables.menuBg"
         class="el-menu-vertical-demo"
-        default-active="2"
+        default-active="/welcome"
         text-color="#fff"
         @open="handleOpen"
         @close="handleClose"
         router
         unique-opened
+        :collapse="!$store.getters.siderType"
       >
-        <el-sub-menu index="1">
-          <template #title>
-            <el-icon><location /></el-icon>
-            <span>Navigator One</span>
-          </template>
-          <el-menu-item-group title="Group One">
-            <el-menu-item index="1-1">item one</el-menu-item>
-            <el-menu-item index="1-2">item two</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="Group Two">
-            <el-menu-item index="1-3">item three</el-menu-item>
-          </el-menu-item-group>
-          <el-sub-menu index="1-4">
-            <template #title>item four</template>
-            <el-menu-item index="1-4-1">item one</el-menu-item>
-          </el-sub-menu>
-        </el-sub-menu>
-        <el-menu-item index="2">
+        <el-menu-item index="/welcome">
           <el-icon><icon-menu /></el-icon>
-          <span>Navigator Two</span>
+          <span>用户首页</span>
         </el-menu-item>
-        <el-menu-item index="3" disabled>
-          <el-icon><document /></el-icon>
-          <span>Navigator Three</span>
-        </el-menu-item>
-        <el-menu-item index="4">
+        <el-menu-item index="/users">
           <el-icon><setting /></el-icon>
-          <span>Navigator Four</span>
+          <span>个人中心</span>
         </el-menu-item>
       </el-menu>
 </template>
@@ -45,11 +25,19 @@
 <script setup>
 import variables from '@/styles/variables.module.scss'
 
-// const defaultActive = ref(sessionStorage.getItem('path') || '/users')
-// const savePath = (path) => {
+import {
+  Document,
+  Menu as IconMenu,
+  Location,
+  Setting,
+} from '@element-plus/icons-vue'
+
+//const defaultActive = ref(sessionStorage.getItem('path') || '/users')
+//const savePath = (path) => {
 //  sessionStorage.setItem('path', `/${path}`)
 // }
 </script>
 
 <style lang="scss" scoped>
 </style>
+

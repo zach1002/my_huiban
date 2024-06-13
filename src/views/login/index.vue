@@ -29,48 +29,44 @@
 
 <script setup>
 import { ref } from 'vue'
-import { login } from '@/api/login'
 import { User, Lock, View, Hide } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router';
+import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElMessage } from 'element-plus';
 const form = ref({
-  username: '',
-  password: ''
+    username: 'admin',
+    password: '123456'
 })
 
 // 表单校验，验证用户名密码是否符合规则
 const rules = ref({
-  username: [
-    {
-      required: true,
-      message: 'Please input Activity name',
-      trigger: 'blur'
-    }
-  ],
-  password: [
-    {
-      required: true,
-      message: 'Please input Activity name',
-      trigger: 'blur'
-    }
-  ]
+    username: [
+        {
+            required: true,
+            message: 'Please input Activity name',
+            trigger: 'blur',
+        }
+    ],
+    password: [
+        {
+            required: true,
+            message: 'Please input Activity name',
+            trigger: 'blur',
+        }
+    ]
 })
 
 // 统一校验
 const formRef = ref(null)
+const router = useRouter();
+// 处理登录
 const handleLogin = () => {
-  formRef.value.validate(async (valid) => {
-    if (valid) {
-      // alert('submit!');
-      const loginForm = {
-        userAccount: form.value.username,
-        userPassword: form.value.password
-      }
-      await login(loginForm)
+   // 静态验证用户名和密码
+    if (form.value.username === 'admin' && form.value.password === '123456') {
+        router.push('/welcome'); // 假设登录成功后跳转到 '/' 路径
     } else {
-      console.log('error submit!!')
-      return false
+        ElMessage.error('用户名或密码错误');
     }
-  })
-}
+};
 
 const passwordType = ref('password')
 const changeType = () => {

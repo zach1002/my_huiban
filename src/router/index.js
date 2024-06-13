@@ -14,6 +14,11 @@ const routes = [
     redirect: '/login',
     children: [
       {
+        path: 'welcome',
+        name: 'welcome',
+        component: () => import('@/views/welcome/index.vue')
+      },
+      {
         path: 'users',
         name: 'users',
         component: () => import('@/views/users/index.vue')
