@@ -2,22 +2,20 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
-  /*
+
   devServer: {
     https: false,
-    hotOnly: false,
+    // hotOnly: false,
     proxy: {
       '/api': {
         //修改为后端提供的api的地址
-        target: 'https://lianghj.top:8888/api/private/v1/',
+        //target: 'https://lianghj.top:8888/api/private/v1/',
+        target: 'http://localhost:8080',
         changeOrigin: true,
-        pathRewrite: {
-          '^/api': ''
-        }
       }
     }
-  }
-  */
+  },
+
   css: {
     loaderOptions: {
       sass: {
