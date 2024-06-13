@@ -9,19 +9,19 @@ const routes = [
   },
   {
     path: '/',
-    name: '/',
+    name: '',
     component: () => import('../layout'),
-    // redirect: '/login',
+    redirect: '/welcome',
     children: [
       {
         path: 'welcome',
-        name: 'welcome',
+        name: '欢迎',
         component: () => import('@/views/welcome/index.vue')
       },
       {
-        path: 'users',
-        name: 'users',
-        component: () => import('@/views/users/index.vue')
+        path: 'user',
+        name: '个人中心',
+        component: () => import('@/views/user/index.vue')
       },
     ]
   },

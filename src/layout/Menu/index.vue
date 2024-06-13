@@ -12,14 +12,15 @@
         :collapse="!$store.getters.siderType"
       >
         <el-menu-item index="/welcome">
-          <el-icon><icon-menu /></el-icon>
-          <span>用户首页</span>
+          <el-icon><IconMenu /></el-icon>
+          <span>欢迎</span>
         </el-menu-item>
 
-        <el-menu-item index="/users">
-          <el-icon><setting /></el-icon>
+        <el-menu-item index="/user">
+          <el-icon><Setting /></el-icon>
           <span>个人中心</span>
         </el-menu-item>
+
 
       </el-menu>
 </template>

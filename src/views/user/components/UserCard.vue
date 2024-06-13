@@ -11,23 +11,22 @@
       </div>
       <div class="box-center">
         <div class="user-name text-center">{{ user.name }}</div>
-        <!-- <div class="user-role text-center text-muted">{{ user.name }}</div> -->
       </div>
     </div>
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
-        <div class="user-bio-section-body">
+        <div class="user-bio-section-header"><span>Email: {{ user.email }}</span></div>
+        <!-- <div class="user-bio-section-body">
           <div class="text-muted">
             JS in Computer Science from the University of Technology
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Skills</span></div>
-        <div class="user-bio-section-body">
+        <div class="user-bio-section-header"><span>Phone: {{ user.phone }}</span></div>
+        <!-- <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>
             <el-progress :percentage="70" />
@@ -44,29 +43,24 @@
             <span>ESLint</span>
             <el-progress :percentage="100" status="success" />
           </div>
-        </div>
+        </div> -->
       </div>
+
     </div>
   </el-card>
 </template>
 
 <script>
 import PanThumb from '@/components/PanThumb'
+import { mapState } from 'vuex';
 
 export default {
   components: { PanThumb },
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: '',
-          avatar: '',
-          role: ''
-        }
-      }
-    }
+  computed: {
+    // 使用 mapState 辅助函数绑定 user 到 store 的 state
+    ...mapState({
+      user: state => state.user
+    })
   }
 }
 </script>
