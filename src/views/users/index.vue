@@ -1,11 +1,61 @@
 <template>
-  <div>
-    users
+  <div class="app-container">
+    <div v-if="user">
+      <el-row :gutter="20">
+
+        <el-col :span="6" :xs="24">
+          <user-card :user="user" />
+        </el-col>
+
+        <el-col :span="18" :xs="24">
+          <el-card>
+            <el-tabs v-model="activeTab">
+
+              <el-tab-pane label="Account" name="account">
+                <account :user="user" />
+              </el-tab-pane>
+
+            </el-tabs>
+          </el-card>
+        </el-col>
+
+      </el-row>
+    </div>
   </div>
 </template>
 
-<script setup>
-</script>
+<script>
+import { mapGetters } from 'vuex'
+import UserCard from './components/UserCard'
+import Account from './components/Account'
 
-<style lang="scss" scoped>
-</style>
+export default {
+  name: 'Profile',
+  components: { UserCard, Account },
+  data() {
+    return {
+      user: {},
+      activeTab: 'activity'
+    }
+  },
+  // computed: {
+  //   ...mapGetters([
+  //     'name',
+  //     'avatar',
+  //     'roles'
+  //   ])
+  // },
+  created() {
+    this.getUser()
+  },
+  methods: {
+    getUser() {
+      this.user = {
+        name: 'admin',
+        email: 'admin@test.com',
+        avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+      }
+    }
+  }
+}
+</script>

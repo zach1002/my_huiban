@@ -11,7 +11,7 @@ const routes = [
     path: '/',
     name: '/',
     component: () => import('../layout'),
-    redirect: '/login',
+    // redirect: '/login',
     children: [
       {
         path: 'welcome',
@@ -22,9 +22,10 @@ const routes = [
         path: 'users',
         name: 'users',
         component: () => import('@/views/users/index.vue')
-      }
+      },
     ]
-  }
+  },
+
 ]
 
 const router = createRouter({

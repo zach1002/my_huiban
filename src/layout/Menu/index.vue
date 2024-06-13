@@ -15,10 +15,12 @@
           <el-icon><icon-menu /></el-icon>
           <span>用户首页</span>
         </el-menu-item>
+
         <el-menu-item index="/users">
           <el-icon><setting /></el-icon>
           <span>个人中心</span>
         </el-menu-item>
+
       </el-menu>
 </template>
 
