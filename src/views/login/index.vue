@@ -9,7 +9,6 @@
                     <User />
                 </el-icon>
                 <el-input v-model="form.username"></el-input>
-                <el-input v-model="form.username"></el-input>
             </el-form-item>
             <el-form-item prop="password">
                 <el-icon :size="20" class="svg-container">
@@ -22,10 +21,8 @@
                 <el-icon :size="20" class="svg-container" @click="changeType" v-else>
                     <View />
                 </el-icon>
-                </el-icon>
             </el-form-item>
             <el-button type="primary" class="login-button" @click="handleLogin">登陆</el-button>
-        </el-form>
         </el-form>
     </div>
 </template>
@@ -65,14 +62,10 @@ const router = useRouter();
 const handleLogin = () => {
    // 静态验证用户名和密码
     if (form.value.username === 'admin' && form.value.password === '123456') {
-<<<<<<< HEAD
-        router.push('/welcome'); // 假设登录成功后跳转到 '/' 路径
-=======
         ElMessage.success({ message: '登录成功', duration: 1000 });
-        setTimeout(() => {
-          router.push('/welcome');
-        }, 1000);
->>>>>>> beb9a33dcfd7cfd4c416daf386568369c7d96930
+          setTimeout(() => {
+            router.push('/welcome');
+          }, 1000);
     } else {
         ElMessage.error('用户名或密码错误');
     }
