@@ -65,7 +65,14 @@ const router = useRouter();
 const handleLogin = () => {
    // 静态验证用户名和密码
     if (form.value.username === 'admin' && form.value.password === '123456') {
+<<<<<<< HEAD
         router.push('/welcome'); // 假设登录成功后跳转到 '/' 路径
+=======
+        ElMessage.success({ message: '登录成功', duration: 1000 });
+        setTimeout(() => {
+          router.push('/welcome');
+        }, 1000);
+>>>>>>> beb9a33dcfd7cfd4c416daf386568369c7d96930
     } else {
         ElMessage.error('用户名或密码错误');
     }
