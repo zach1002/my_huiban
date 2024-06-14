@@ -19,6 +19,12 @@
       <el-icon><setting /></el-icon>
       <span>{{$t('menus.user')}}</span>
     </el-menu-item>
+    <el-menu-item>
+      <a href="https://www.myhuiban.com/" target="_blank" style="color: inherit; text-decoration: none;">
+      <el-icon><Share /></el-icon>
+      <span>External Link</span>
+      </a>
+    </el-menu-item>
   </el-menu>
 </template>
 
@@ -30,6 +36,7 @@ Document,
 Menu as IconMenu,
 Location,
 Setting,
+Share
 } from '@element-plus/icons-vue'
 
 //const defaultActive = ref(sessionStorage.getItem('path') || '/users')
