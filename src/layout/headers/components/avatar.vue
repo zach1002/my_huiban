@@ -5,7 +5,8 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="logout">退出</el-dropdown-item>
+        <el-dropdown-item v-if="isLogin" @click="logout">退出</el-dropdown-item>
+        <el-dropdown-item v-else @click="login">登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
@@ -15,14 +16,34 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-const squareUrl = ref(
-  'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'
-)
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { ElMessage } from 'element-plus'
+
+
 const router = useRouter()
+const store = useStore()
+const isLogin = computed(() => store.getters['isLogin']);
+
+// 根据isLogin的状态切换squareUrl的值
+const squareUrl = computed(() => {
+  return isLogin.value
+    ? 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'
+    : `https://github.com/identicons/chucklu.png`;
+});
 
 const logout = () => {
+  ElMessage.success({ message: '注销成功', duration: 1000 });
+          setTimeout(() => {
+            store.commit('user/SET_IS_LOGIN', false)
+            router.push('/welcome')
+          }, 1000);
+}
+
+const login = () => {
   router.push('/login')
 }
+
 </script>
 
 <style lang="scss" scoped>
