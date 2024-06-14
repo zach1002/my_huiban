@@ -1,6 +1,6 @@
 <template>
   <div class="app-container">
-    <div v-if="true">
+    <div v-if="isLogin">
       <el-row :gutter="20">
 
         <el-col :span="6" :xs="24">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex';
 import UserCard from './components/UserCard'
 import Account from './components/Account'
 
@@ -46,7 +46,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters['isLogin']
+    ...mapState({
+      isLogin: state => state.user.isLogin
+    })
   }
 }
 </script>

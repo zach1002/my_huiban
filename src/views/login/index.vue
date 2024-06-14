@@ -32,6 +32,8 @@ import { ref } from 'vue'
 import { User, Lock, View, Hide } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElMessage } from 'element-plus';
+import { useStore } from 'vuex';
+
 const form = ref({
     username: 'admin',
     password: '123456'
@@ -58,10 +60,12 @@ const rules = ref({
 // 统一校验
 const formRef = ref(null)
 const router = useRouter();
+const store = useStore();
 // 处理登录
 const handleLogin = () => {
    // 静态验证用户名和密码
     if (form.value.username === 'admin' && form.value.password === '123456') {
+        store.commit('user/SET_IS_LOGIN', true);
         ElMessage.success({ message: '登录成功', duration: 1000 });
           setTimeout(() => {
             router.push('/welcome');

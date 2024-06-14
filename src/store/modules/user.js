@@ -6,7 +6,7 @@ const getDefaultState = () => {
   return {
     isLogin: false,
     name: '你好',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
     email: 'nihao@test.com',
     phone: '1234567890'
   }
