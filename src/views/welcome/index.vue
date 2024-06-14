@@ -2,20 +2,19 @@
   <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'search'" clearable></el-input>
+        <el-input :placeholder="'search'" clearable v-model="searchInput.name"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search">Search</el-button>
-      <el-button type="primary">Add User</el-button>
+      <el-button type="primary" :icon="Search" @click="handleSearch">Search</el-button>
     </el-row>
 
     <el-table :data="pageData" stripe style="width: 100%">
-    <el-table-column prop="date" label="Date" width="180" />
     <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="address" label="Address" />
+    <el-table-column prop="type" label="Type" width="180" />
+    <el-table-column prop="fullName" label="FullName" />
     </el-table>
     <el-pagination class="pagination"
-      v-model:current-page="qureyForm.pagenum"
-      v-model:page-size="qureyForm.pagesize"
+      v-model:current-page="queryForm.pagenum"
+      v-model:page-size="queryForm.pagesize"
       :page-sizes="[2, 4, 8]"
       :small="small"
       :disabled="disabled"
@@ -32,75 +31,91 @@
 import { Search } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 
-const qureyForm = ref({
+const queryForm = ref({
   pagenum: 1,
   pagesize: 2
 })
 
-const tableData = [
+const tableData = ref([
   {
-    date: '2016-05-07',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'TPAMI',
+    type: 'A',
+    fullName: 'IEEE Trans on Pattern Analysis and Machine Intelligence',
   },
   {
-    date: '2016-05-08',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'AI',
+    type: 'A',
+    fullName: 'Artificial Intelligence',
   },
   {
-    date: '2016-05-06',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'IJCV',
+    type: 'A',
+    fullName: 'International Journal of Computer Vision',
   },
   {
-    date: '2016-05-05',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'JMLR',
+    type: 'A',
+    fullName: 'Journal of Machine Learning Research',
   },
   {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'TAP',
+    type: 'B',
+    fullName: 'ACM Transactions on Applied Perception',
   },
   {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'TSLP',
+    type: 'B',
+    fullName: 'ACM Transactions on Speech and Language Processing',
   },
   {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
+    name: 'AAMAS',
+    type: 'B',
+    fullName: 'Autonomous Agents and Multi-Agent Systems',
   },
   {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
-const totalLength = ref(tableData.length);
-let pageData = []
+    name: 'EAAI',
+    type: 'C',
+    fullName: 'Engineering Applications of Artificial Intelligence',
+  }
+])
+const totalLength = ref(tableData.value.length);
+let pageData = ref([])
 
 const getData = (pageSize, pageNum) => {
   const begin = pageSize*pageNum - pageSize
   const end = pageSize*pageNum
-  pageData = tableData.slice(begin, end);
+  pageData.value = tableData.value.slice(begin, end);
 }
-getData(qureyForm.value.pagesize, qureyForm.value.pagenum)
+getData(queryForm.value.pagesize, queryForm.value.pagenum)
 
 const handleSizeChange = (pageSize) => {
-  qureyForm.value.pagenum = 1
-  qureyForm.value.pagesize = pageSize
-  getData(qureyForm.value.pagesize, qureyForm.value.pagenum)
+  queryForm.value.pagenum = 1
+  queryForm.value.pagesize = pageSize
+  getData(queryForm.value.pagesize, queryForm.value.pagenum)
 }
 
 const handleCurrentChange = (pageNum) => {
-  qureyForm.value.pagenum = pageNum
-  getData(qureyForm.value.pagesize, qureyForm.value.pagenum)
+  queryForm.value.pagenum = pageNum
+  getData(queryForm.value.pagesize, queryForm.value.pagenum)
 }
 
+const searchInput = ref({
+    name: ''
+})
 
+const handleSearch = () => {
+    let curData = ref([])
+    for (let index = 0; index < tableData.value.length; index++) {
+      const element = tableData.value[index];
+      if(searchInput.value.name===element.name) {
+        curData.value.push(element)
+        console.log(searchInput.value.name)
+        console.log(element.name)
+      }
+    }
+    pageData.value = curData.value;
+    console.log(pageData)
+}
 
 
 
