@@ -13,11 +13,11 @@
   >
     <el-menu-item index="/welcome">
       <el-icon><icon-menu /></el-icon>
-      <span>用户首页</span>
+      <span>{{$t('menus.welcome')}}</span>
     </el-menu-item>
     <el-menu-item index="/user">
       <el-icon><setting /></el-icon>
-      <span>个人中心</span>
+      <span>{{$t('menus.user')}}</span>
     </el-menu-item>
   </el-menu>
 </template>
