@@ -7,7 +7,7 @@
 
     <el-form ref="formRef" :model="form" class="login-form" :rules="rules">
         <div class="title-container">
-            <h3 class="title">{{$t('login.title')}}</h3>
+            <h3 class="title">{{$t('register.title')}}</h3>
         </div>
         <el-form-item prop="username">
             <el-icon :size="20" class="svg-container">
@@ -28,8 +28,8 @@
             </el-icon>
         </el-form-item>
         <div class="button-container">
-          <el-button type="primary" class="login-button" @click="handleLogin">{{$t('login.btnTitle')}}</el-button>
-          <el-button type="primary" class="register-button"  @click="handleRegister">{{$t('login.btnRegister')}}</el-button>
+          <el-button type="primary" class="login-button" @click="handleForRegister">{{$t('register.btnTitle')}}</el-button>
+          <el-button type="primary" class="register-button"  @click="handleToLogin">{{$t('register.btnLogin')}}</el-button>
         </div>
 
     </el-form>
@@ -71,21 +71,12 @@ const formRef = ref(null)
 const router = useRouter();
 const store = useStore();
 // 处理登录
-const handleLogin = () => {
-   // 静态验证用户名和密码
-    if (form.value.username === 'admin' && form.value.password === '123456') {
-        store.commit('user/SET_IS_LOGIN', true);
-        ElMessage.success({ message: '登录成功', duration: 1000 });
-          setTimeout(() => {
-            router.push('/welcome');
-          }, 1000);
-    } else {
-        ElMessage.error('用户名或密码错误');
-    }
+const handleForRegister = () => {
+
 };
 
-const handleRegister = () => {
-  router.push('/register');
+const handleToLogin = () => {
+  router.push('/login');
 };
 
 const passwordType = ref('password')
