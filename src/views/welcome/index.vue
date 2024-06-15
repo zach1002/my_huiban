@@ -109,12 +109,9 @@ const handleSearch = () => {
       const element = tableData.value[index];
       if(searchInput.value.name===element.name) {
         curData.value.push(element)
-        console.log(searchInput.value.name)
-        console.log(element.name)
       }
     }
     pageData.value = curData.value;
-    console.log(pageData)
 }
 
 
