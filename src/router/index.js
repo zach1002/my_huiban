@@ -13,6 +13,11 @@ const routes = [
     component: () => import('../views/register')
   },
   {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/admin')
+  },
+  {
     path: '/',
     name: '/',
     component: () => import('../layout'),
@@ -30,7 +35,6 @@ const routes = [
       },
     ]
   },
-
 ]
 
 const router = createRouter({
