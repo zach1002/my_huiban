@@ -6,5 +6,6 @@ import router from './router'
 import store from './store'
 import '@/styles/index.scss'
 import i18n from '@/i18n'
+import SvgIcon from '@/icons'
 
 createApp(App).use(ElementPlus).use(store).use(router).use(i18n).mount('#app')

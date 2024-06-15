@@ -1,4 +1,9 @@
 <template>
+  <div class="sidebar-head">
+    <img src="@/assets/images/th.png" alt="logo" class="sidebar-logo">
+    <h1 class="sidebar-title">假会伴 </h1>
+  </div>
+
   <el-menu
     active-text-color="#ffd04b"
     :background-color="variables.menuBg"
@@ -46,5 +51,28 @@ Share
 </script>
 
 <style lang="scss" scoped>
+.sidebar-title {
+      display: inline-block;
+      margin: 0;
+      color: #ed6c10;
+      font-weight: 600;
+      line-height: 50px;
+      font-size: 14px;
+      font-family: Avenir, Helvetica Neue, Arial, Helvetica, sans-serif;
+      vertical-align: middle;
+    }
+
+.sidebar-logo {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 12px;
+}
+
+.sidebar-head {
+  width: 50%; /* 或者固定宽度，如 300px */
+  margin-left: auto;
+  margin-right: auto;
+}
 </style>
 
