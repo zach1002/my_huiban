@@ -21,3 +21,19 @@ export const getInfo = () => {
     method: 'GET'
   })
 }
+
+export const register = (data) => {
+  return request({
+    url: '/user/register',
+    method: 'POST',
+    data
+  })
+}
+
+export const profileUpdate = (data) => {
+  return request({
+    url: '/user/profileUpdate',
+    method: 'POST',
+    data
+  })
+}

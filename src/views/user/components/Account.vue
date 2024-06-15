@@ -20,18 +20,20 @@ export default {
   data() {
     return {
       user: {
-        name: '',
-        email: '',
-        phone: '',
+        name: null,
+        email: null,
+        phone: null,
       }
     }
   },
   methods: {
     submit() {
-      this.$store.commit('user/SET_NAME', this.user.name)
-      this.$store.commit('user/SET_EMAIL', this.user.email)
-      this.$store.commit('user/SET_PHONE', this.user.phone)
-      
+      const userInfo = this.$store.getters['userInfo']
+      userInfo.name = this.user.name || userInfo.name
+      userInfo.email = this.user.email || userInfo.email
+      userInfo.phone = this.user.phone || userInfo.phone
+      this.$store.commit('user/SET_USER_INFO', userInfo)
+
       this.$message({
         message: 'User information has been updated successfully',
         type: 'success',
