@@ -3,6 +3,7 @@ export default {
     '/': '首页',
     welcome: '用户首页',
     user: '个人中心',
+    admin: '管理员界面',
   },
   login: {
     title: '用户登录',

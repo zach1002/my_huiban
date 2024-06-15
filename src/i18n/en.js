@@ -3,6 +3,7 @@ export default {
     '/': 'homepage',
     welcome: 'user homepage',
     user: 'users list',
+    admin: 'admin page',
   },
   login: {
     title: 'user login',
