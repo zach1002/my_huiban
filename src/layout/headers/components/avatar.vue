@@ -28,7 +28,7 @@ const isLogin = computed(() => store.getters['isLogin']);
 // 根据isLogin的状态切换squareUrl的值
 const squareUrl = computed(() => {
   return isLogin.value
-    ? 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500'
+    ? store.getters['user/avatar']
     : `https://github.com/identicons/chucklu.png`;
 });
 

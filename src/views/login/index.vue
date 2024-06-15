@@ -71,8 +71,21 @@ const formRef = ref(null)
 const router = useRouter();
 const store = useStore();
 // 处理登录
+const mock = false
 const handleLogin = () => {
-   // 静态验证用户名和密码
+    // 请求服务器验证用户名和密码
+    if (!mock) {
+      store.dispatch('user/login', form.value).then(() => {
+        ElMessage.success({ message: '登录成功', duration: 1000 });
+        setTimeout(() => {
+          router.push('/welcome');
+        }, 1000);
+      }).catch((msg) => {
+        ElMessage.error(msg);
+      });
+      return 
+    } 
+  // 静态验证用户名和密码
     if (form.value.username === 'admin' && form.value.password === '123456') {
         store.commit('user/SET_IS_LOGIN', true);
         ElMessage.success({ message: '登录成功', duration: 1000 });

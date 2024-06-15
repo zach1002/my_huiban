@@ -10,7 +10,7 @@ module.exports = defineConfig({
       '/api': {
         //修改为后端提供的api的地址
         //target: 'https://lianghj.top:8888/api/private/v1/',
-        target: 'http://localhost:8080',
+        target: 'http://39.101.66.34',
         changeOrigin: true,
       }
     }

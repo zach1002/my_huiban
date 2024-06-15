@@ -44,12 +44,26 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ userAccount: username, userPassword: password }).then(response => {
+        
         const { data } = response
+        const code = data.code // 业务状态码
+        const user = data.data // 用户信息
+        alert(user.userId)
+        
+        if (code !== 2000) {
+          const msg = data.message + ', ' + data.detail
+          reject(msg)
+          return
+        }
         commit('SET_IS_LOGIN', true)
-        commit('SET_NAME', data.userNname)
+        // commit('SET_USER_ID', user.userId)
+        commit('SET_NAME', user.userName)
+        commit('SET_PHONE', user.phone)
+        commit('SET_EMAIL', user.email)
+        commit('SET_AVATAR', user.avatarUrl)
+        resolve()
         // commit('SET_TOKEN', data.token)
         // setToken(data.token)
-        resolve()
       }).catch(error => {
         reject(error)
       })
