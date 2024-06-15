@@ -28,7 +28,7 @@ const isLogin = computed(() => store.getters['isLogin']);
 // 根据isLogin的状态切换squareUrl的值
 const squareUrl = computed(() => {
   return isLogin.value
-    ? store.getters['user/avatar']
+    ? store.getters['avatar']
     : `https://github.com/identicons/chucklu.png`;
 });
 

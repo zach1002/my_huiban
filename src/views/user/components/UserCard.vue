@@ -6,17 +6,17 @@
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
+        <pan-thumb :image="user.userInfo.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
         </pan-thumb>
       </div>
       <div class="box-center">
-        <div class="user-name text-center">{{ user.name }}</div>
+        <div class="user-name text-center">{{ user.userInfo.name }}</div>
       </div>
     </div>
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><span>Email: {{ user.email }}</span></div>
+        <div class="user-bio-section-header"><span>Email: {{ user.userInfo.email }}</span></div>
         <!-- <div class="user-bio-section-body">
           <div class="text-muted">
             JS in Computer Science from the University of Technology
@@ -25,7 +25,7 @@
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><span>Phone: {{ user.phone }}</span></div>
+        <div class="user-bio-section-header"><span>Phone: {{ user.userInfo.phone }}</span></div>
         <!-- <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>

@@ -44,8 +44,8 @@ import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElMessage } from 'elemen
 import { useStore } from 'vuex';
 
 const form = ref({
-    username: 'admin',
-    password: '123456'
+    username: 'Admin',
+    password: '12345678'
 })
 
 // 表单校验，验证用户名密码是否符合规则
@@ -76,6 +76,7 @@ const handleLogin = () => {
     // 请求服务器验证用户名和密码
     if (!mock) {
       store.dispatch('user/login', form.value).then(() => {
+        console.log(store.getters['userInfo'])
         ElMessage.success({ message: '登录成功', duration: 1000 });
         setTimeout(() => {
           router.push('/welcome');

@@ -1,14 +1,17 @@
 import { login, logout, getInfo } from '@/api/user'
+import store from '..'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
   return {
     isLogin: false,
-    name: '你好',
-    avatar: 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
-    email: 'nihao@test.com',
-    phone: '1234567890'
+    userInfo: {
+      name: '你好',
+      avatar: 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+      email: 'nihao@test.com',
+      phone: '1234567890'
+    }
   }
 }
 
@@ -18,24 +21,28 @@ const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
   },
-  // SET_TOKEN: (state, token) => {
-  //   state.token = token
-  // },
+
   SET_IS_LOGIN: (state, isLogin) => {
     state.isLogin = isLogin
   },
-  SET_NAME: (state, name) => {
-    state.name = name
+  SET_USER_INFO: (state, userInfo) => {
+    state.userInfo = userInfo
   },
-  SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
-  },
-  SET_EMAIL: (state, email) => {
-    state.email = email
-  },
-  SET_PHONE: (state, phone) => {
-    state.phone = phone
-  }
+  // SET_NAME: (state, name) => {
+  //   state.name = name
+  // },
+  // SET_AVATAR: (state, avatar) => {
+  //   state.avatar = avatar
+  // },
+  // SET_EMAIL: (state, email) => {
+  //   state.email = email
+  // },
+  // SET_PHONE: (state, phone) => {
+  //   state.phone = phone
+  // },
+  // SET_TOKEN: (state, token) => {
+  //   state.token = token
+  // },
 }
 
 const actions = {
@@ -48,19 +55,28 @@ const actions = {
         const { data } = response
         const code = data.code // 业务状态码
         const user = data.data // 用户信息
-        alert(user.userId)
         
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail
+          const msg = data.message + ', ' + data.detail 
           reject(msg)
           return
         }
         commit('SET_IS_LOGIN', true)
         // commit('SET_USER_ID', user.userId)
-        commit('SET_NAME', user.userName)
-        commit('SET_PHONE', user.phone)
-        commit('SET_EMAIL', user.email)
-        commit('SET_AVATAR', user.avatarUrl)
+        const userInfo = {
+          id: user.userId,
+          name: user.userName,
+          avatar: user.avatarUrl,
+          email: user.email,
+          phone: user.phone,
+          role: user.permission
+        }
+        commit('SET_USER_INFO', userInfo)
+        console.log(store.getters['userInfo'])
+        // commit('SET_NAME', user.userName)
+        // commit('SET_PHONE', user.phone)
+        // commit('SET_EMAIL', user.email)
+        // commit('SET_AVATAR', user.avatarUrl)
         resolve()
         // commit('SET_TOKEN', data.token)
         // setToken(data.token)

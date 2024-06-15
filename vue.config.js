@@ -3,18 +3,18 @@ module.exports = defineConfig({
   transpileDependencies: true,
   lintOnSave: false,
 
-  devServer: {
-    https: false,
-    // hotOnly: false,
-    proxy: {
-      '/api': {
-        //修改为后端提供的api的地址
-        //target: 'https://lianghj.top:8888/api/private/v1/',
-        target: 'http://39.101.66.34',
-        changeOrigin: true,
-      }
-    }
-  },
+  // devServer: {
+  //   https: false,
+  //   // hotOnly: false,
+  //   proxy: {
+  //     '/api': {
+  //       //修改为后端提供的api的地址
+  //       //target: 'https://lianghj.top:8888/api/private/v1/',
+  //       target: 'http://39.101.66.34',
+  //       changeOrigin: true,
+  //     }
+  //   }
+  // },
 
   css: {
     loaderOptions: {
