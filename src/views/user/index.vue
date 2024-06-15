@@ -15,8 +15,10 @@
                 <account  />
               </el-tab-pane>
 
-              <el-tab-pane label="Subscribe" name="Subscribe">
-                <el-card></el-card>
+              <el-tab-pane label="Subscribed" name="Subscribed">
+                <el-card>
+                  <!-- todo -->
+                </el-card>
               </el-tab-pane>
 
             </el-tabs>
