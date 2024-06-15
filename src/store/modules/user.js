@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, profileUpdate } from '@/api/user'
 import store from '..'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
@@ -10,7 +10,8 @@ const getDefaultState = () => {
       name: '你好',
       avatar: 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
       email: 'nihao@test.com',
-      phone: '1234567890'
+      phone: '1234567890',
+      role: 1
     }
   }
 }
@@ -28,22 +29,19 @@ const mutations = {
   SET_USER_INFO: (state, userInfo) => {
     state.userInfo = userInfo
   },
-  // SET_NAME: (state, name) => {
-  //   state.name = name
-  // },
-  // SET_AVATAR: (state, avatar) => {
-  //   state.avatar = avatar
-  // },
-  // SET_EMAIL: (state, email) => {
-  //   state.email = email
-  // },
-  // SET_PHONE: (state, phone) => {
-  //   state.phone = phone
-  // },
-  // SET_TOKEN: (state, token) => {
-  //   state.token = token
-  // },
 }
+
+const getUserInfo = (user) => {
+  return {
+    id: user.userId,
+    name: user.userName,
+    avatar: user.avatarUrl,
+    email: user.email,
+    phone: user.phone,
+    role: user.permission
+  }
+}
+
 
 const actions = {
   // user login
@@ -55,31 +53,19 @@ const actions = {
         const { data } = response
         const code = data.code // 业务状态码
         const user = data.data // 用户信息
-        
+
         if (code !== 2000) {
           const msg = data.message + ', ' + data.detail 
           reject(msg)
           return
         }
+
         commit('SET_IS_LOGIN', true)
-        // commit('SET_USER_ID', user.userId)
-        const userInfo = {
-          id: user.userId,
-          name: user.userName,
-          avatar: user.avatarUrl,
-          email: user.email,
-          phone: user.phone,
-          role: user.permission
-        }
+
+        const userInfo = getUserInfo(user)
         commit('SET_USER_INFO', userInfo)
-        console.log(store.getters['userInfo'])
-        // commit('SET_NAME', user.userName)
-        // commit('SET_PHONE', user.phone)
-        // commit('SET_EMAIL', user.email)
-        // commit('SET_AVATAR', user.avatarUrl)
+        
         resolve()
-        // commit('SET_TOKEN', data.token)
-        // setToken(data.token)
       }).catch(error => {
         reject(error)
       })
@@ -120,6 +106,37 @@ const actions = {
       })
     })
   },
+
+  // profile update
+  profileUpdate({ commit }, userInfo) {
+    return new Promise((resolve, reject) => {
+      profileUpdate({
+        userName: userInfo.name,
+        avatarUrl: userInfo.avatar,
+        phone: userInfo.phone,
+        email: userInfo.email
+      }).then(response => {
+
+        const { data } = response
+        const code = data.code // 业务状态码
+        const user = data.data // 用户信息
+
+        if (code !== 2000) {
+          const msg = data.message + ', ' + data.detail 
+          reject(msg)
+          return
+        }
+
+        const userInfo = getUserInfo(user)
+        commit('SET_USER_INFO', userInfo)
+        
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
 
   // remove token
   // resetToken({ commit }) {

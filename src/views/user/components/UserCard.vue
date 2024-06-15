@@ -17,11 +17,6 @@
     <div class="user-bio">
       <div class="user-education user-bio-section">
         <div class="user-bio-section-header"><span>Email: {{ user.userInfo.email }}</span></div>
-        <!-- <div class="user-bio-section-body">
-          <div class="text-muted">
-            JS in Computer Science from the University of Technology
-          </div>
-        </div> -->
       </div>
 
       <div class="user-skills user-bio-section">
