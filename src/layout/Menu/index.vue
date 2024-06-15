@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar-head">
+  <div class="sidebar-head" v-if="$store.getters.siderType===true">
     <img src="@/assets/images/th.png" alt="logo" class="sidebar-logo">
     <h1 class="sidebar-title">假会伴 </h1>
   </div>
@@ -27,7 +27,7 @@
     <el-menu-item>
       <a href="https://www.myhuiban.com/" target="_blank" style="color: inherit; text-decoration: none;">
       <el-icon><Share /></el-icon>
-      <span>External Link</span>
+      <span> External Link</span>
       </a>
     </el-menu-item>
   </el-menu>

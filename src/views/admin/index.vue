@@ -3,8 +3,17 @@
       <el-container class="app-wrapper">
         <el-container class="container" :class="{ hidderContainer: !$store.getters.siderType }">
           <el-header><Headers /></el-header>
-          <el-main>
+          <el-main v-if="$store.getters.isLogin===true">
             <Admin />
+          </el-main>
+
+          <el-main v-else>
+            <el-alert
+              title="You are not logged in"
+              description="Please login to view your profile"
+              type="warning"
+              show-icon
+            />
           </el-main>
         </el-container>
       </el-container>

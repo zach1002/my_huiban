@@ -79,13 +79,18 @@ const handleLogin = () => {
         console.log(store.getters['userInfo'])
         ElMessage.success({ message: '登录成功', duration: 1000 });
         setTimeout(() => {
-          router.push('/welcome');
+          if(store.getters.role===0) {
+            router.push('/admin');
+          }
+          else {
+            router.push('/welcome');
+          }
         }, 1000);
       }).catch((msg) => {
         ElMessage.error(msg);
       });
-      return 
-    } 
+      return
+    }
   // 静态验证用户名和密码
     if (form.value.username === 'admin' && form.value.password === '123456') {
         store.commit('user/SET_IS_LOGIN', true);
