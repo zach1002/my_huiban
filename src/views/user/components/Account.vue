@@ -9,6 +9,9 @@
     <el-form-item label="Phone">
       <el-input v-model.trim="phone" />
     </el-form-item>
+    <el-form-item label="Avatar">
+      <el-input v-model.trim="avatar" />
+    </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="submit">Update</el-button>
     </el-form-item>
@@ -22,11 +25,12 @@ export default {
         name: null,
         email: null,
         phone: null,
+        avatar: null
     }
   },
   methods: {
     submit() {
-      if (!this.name && !this.email && !this.phone) {
+      if (!this.name && !this.email && !this.phone && !this.avatar) {
         this.$message({
           message: 'Please fill in the information',
           type: 'error',
@@ -39,6 +43,7 @@ export default {
       userInfo.name = this.name || userInfo.name
       userInfo.email = this.email || userInfo.email
       userInfo.phone = this.phone || userInfo.phone
+      userInfo.avatar = this.avatar || userInfo.avatar
 
       this.$store.dispatch('user/profileUpdate', userInfo).then(() => {
         this.$message({
