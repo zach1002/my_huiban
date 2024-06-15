@@ -5,7 +5,7 @@
     </span>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item v-if="isLogin" @click="logout">注销</el-dropdown-item>
+        <el-dropdown-item v-if="isLogin" @click="logout">退出</el-dropdown-item>
         <el-dropdown-item v-else @click="login">登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
