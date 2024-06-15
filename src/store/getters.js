@@ -6,4 +6,5 @@ export default {
   name: state => state.user.userInfo.name,
   email: state => state.user.userInfo.email,
   phone: state => state.user.userInfo.phone,
+  role: state => state.user.userInfo.role,
 }
