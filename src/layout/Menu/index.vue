@@ -24,6 +24,10 @@
       <el-icon><setting /></el-icon>
       <span>{{$t('menus.user')}}</span>
     </el-menu-item>
+    <el-menu-item index="/admin" v-if="$store.getters.isLogin===true&&$store.getters.role===0">
+      <el-icon><Location /></el-icon>
+      <span>{{$t('menus.admin')}}</span>
+    </el-menu-item>
     <el-menu-item>
       <a href="https://www.myhuiban.com/" target="_blank" style="color: inherit; text-decoration: none;">
       <el-icon><Share /></el-icon>
@@ -35,6 +39,7 @@
 
 <script setup>
 import variables from '@/styles/variables.module.scss'
+import { ref } from 'vue'
 
 import {
 Document,
@@ -44,10 +49,6 @@ Setting,
 Share
 } from '@element-plus/icons-vue'
 
-//const defaultActive = ref(sessionStorage.getItem('path') || '/users')
-//const savePath = (path) => {
-//  sessionStorage.setItem('path', `/${path}`)
-// }
 </script>
 
 <style lang="scss" scoped>

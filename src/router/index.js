@@ -13,11 +13,6 @@ const routes = [
     component: () => import('../views/register')
   },
   {
-    path: '/admin',
-    name: 'admin',
-    component: () => import('../views/admin')
-  },
-  {
     path: '/',
     name: '/',
     component: () => import('../layout'),
@@ -32,6 +27,11 @@ const routes = [
         path: 'user',
         name: 'user',
         component: () => import('@/views/user/index.vue')
+      },
+      {
+        path: '/admin',
+        name: 'admin',
+        component: () => import('../views/admin')
       },
     ]
   },
