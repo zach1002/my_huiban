@@ -1,4 +1,22 @@
 <template>
+  <el-card class="card">
+    <div class="data-card">
+      <div class="png-container">
+        <img src="@/assets/images/people.png" alt="people" class="peoplePng">
+      </div>
+      <div class="text-container">
+        <div class="title-container">
+          <h3 class="title">科研人员</h3>
+        </div>
+        <div class="number-container">
+          {{ personnelCount }}
+        </div>
+      </div>
+    </div>
+  </el-card>
+
+
+
   <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
@@ -30,6 +48,8 @@
 <script setup>
 import { Search } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+
+const personnelCount = ref(102400); // 假设这是从变量得到的数字
 
 const queryForm = ref({
   pagenum: 1,
@@ -128,4 +148,28 @@ const handleSearch = () => {
 .pagination{
   margin-top:10px;
 }
+
+.card {
+  width:20%;
+  margin-bottom: 10px;
+}
+.data-card {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+
+  .png-container {
+    width: 30%;
+
+    .peoplePng {
+      width: 80%;
+      height: auto;
+    }
+  }
+
+  .text-container {
+    width: 30%;
+  }
+}
+
 </style>
