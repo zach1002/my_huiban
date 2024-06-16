@@ -53,7 +53,7 @@ export default {
   methods: {
     handleTabClick(tab) {
       if(tab.props.name === 'Subscribed') {
-        // this.$refs.subscribedComponent.update()
+        this.$refs.subscribedComponent.update()
       }
     }
   },

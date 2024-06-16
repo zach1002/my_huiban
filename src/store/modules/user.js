@@ -1,4 +1,4 @@
-import { login, logout, getInfo, profileUpdate, getUserNum } from '@/api/user'
+import { login, logout, getInfo, profileUpdate, getUserNum, subscribeMeeting, unsubscribeMeeting } from '@/api/user'
 import { getsubscribedMeetings } from '@/api/user'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
@@ -176,7 +176,42 @@ const actions = {
         reject(error)
       })
     })
-  }
+  },
+
+
+  subscribeMeeting({ commit }, meetingId) {
+    return new Promise((resolve, reject) => {
+      subscribeMeeting(meetingId).then(response => {
+        const { data } = response
+        const code = data.code // 业务状态码
+        if (code !== 2000) {
+          const msg = data.message
+          reject(msg)
+          return
+        }
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  unsubscribeMeeting({ commit }, meetingId) {
+    return new Promise((resolve, reject) => {
+      unsubscribeMeeting(meetingId).then(response => {
+        const { data } = response
+        const code = data.code // 业务状态码
+        if (code !== 2000) {
+          const msg = data.message
+          reject(msg)
+          return
+        }
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 }
 
 export default {
