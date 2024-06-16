@@ -7,7 +7,7 @@
         </div>
         <div class="text-container">
           <div class="title-container">
-            <h3 class="title">科研人员</h3>
+            <h3 class="title">{{$t('welcome.people')}}</h3>
           </div>
           <div class="number-container">
             {{ personnelCount }}
@@ -23,7 +23,7 @@
         </div>
         <div class="text-container">
           <div class="title-container">
-            <h3 class="title">会议</h3>
+            <h3 class="title">{{$t('welcome.meeting')}}</h3>
           </div>
           <div class="number-container">
             {{ meetingCount }}
@@ -36,9 +36,9 @@
   <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'search'" clearable v-model="searchQuery"></el-input>
+        <el-input :placeholder="$t('welcome.search')" clearable v-model="searchQuery"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search">Search</el-button>
+      <el-button type="primary" :icon="Search">{{$t('welcome.search')}}</el-button>
     </el-row>
 
 <!--    <el-table :data="pageData" stripe style="width: 100%">-->

@@ -13,13 +13,13 @@
             <el-icon :size="20" class="svg-container">
                 <User />
             </el-icon>
-            <el-input v-model="form.username" placeholder='输入用户名' ></el-input>
+            <el-input v-model="form.username" :placeholder="$t('register.nameInput')" ></el-input>
         </el-form-item>
         <el-form-item prop="password">
             <el-icon :size="20" class="svg-container">
                 <Lock />
             </el-icon>
-            <el-input v-model="form.password" placeholder='输入密码' :type="passwordType"></el-input>
+            <el-input v-model="form.password" :placeholder="$t('register.passwordInput')" :type="passwordType"></el-input>
             <el-icon :size="20" class="svg-container" @click="changeType" v-if="passwordType === 'password'">
                 <Hide />
             </el-icon>
@@ -31,7 +31,7 @@
             <el-icon :size="20" class="svg-container">
               <Warning />
             </el-icon>
-            <el-input v-model="form.checkpassword" placeholder='确认密码' :type="passwordType"></el-input>
+            <el-input v-model="form.checkpassword" :placeholder="$t('register.passwordCheck')" :type="passwordType"></el-input>
             <el-icon :size="20" class="svg-container" @click="changeType" v-if="passwordType === 'password'">
                 <Hide />
             </el-icon>

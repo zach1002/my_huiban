@@ -1,7 +1,7 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>{{$t('user.aboutMe')}}</span>
     </div>
 
     <div class="user-profile">
@@ -16,11 +16,11 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><span>Email: {{ user.userInfo.email }}</span></div>
+        <div class="user-bio-section-header"><span>{{$t('user.email')}}: {{ user.userInfo.email }}</span></div>
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><span>Phone: {{ user.userInfo.phone }}</span></div>
+        <div class="user-bio-section-header"><span>{{$t('user.phone')}}: {{ user.userInfo.phone }}</span></div>
         <!-- <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Vue</span>
