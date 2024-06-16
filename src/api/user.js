@@ -79,3 +79,10 @@ export const listAll = () => {
     method: 'GET',
   })
 }
+
+export const deleteUser = (data) => {
+  return request({
+    url: `/user/delete?id=${data}`,
+    method: 'GET',
+  })
+}
