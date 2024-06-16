@@ -1,4 +1,5 @@
 <template>
+
   <div class="login-container">
     <div class="sidebar-head">
       <img src="@/assets/images/th.png" alt="logo" class="sidebar-logo">
@@ -34,6 +35,7 @@
 
     </el-form>
   </div>
+
 </template>
 
 <script setup>
