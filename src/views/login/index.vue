@@ -13,13 +13,13 @@
             <el-icon :size="20" class="svg-container">
                 <User />
             </el-icon>
-            <el-input v-model="form.username"></el-input>
+            <el-input v-model="form.username" :placeholder="$t('login.nameInput')"></el-input>
         </el-form-item>
         <el-form-item prop="password">
             <el-icon :size="20" class="svg-container">
                 <Lock />
             </el-icon>
-            <el-input v-model="form.password" :type="passwordType"></el-input>
+            <el-input v-model="form.password" :placeholder="$t('login.passwordInput')" :type="passwordType"></el-input>
             <el-icon :size="20" class="svg-container" @click="changeType" v-if="passwordType === 'password'">
                 <Hide />
             </el-icon>

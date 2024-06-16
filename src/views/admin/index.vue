@@ -2,9 +2,9 @@
   <!-- <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'查询用户信息'" clearable v-model="searchInput.name"></el-input>
+        <el-input :placeholder="$t('admin.searchHolder')" clearable v-model="searchInput.name"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+      <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('admin.search')}}</el-button>
     </el-row>
 
     <el-table :data="pageData" stripe style="width: 100%">
@@ -29,9 +29,9 @@
   <el-card class="buttom-part">
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'输入uid'" clearable v-model="userId"></el-input>
+        <el-input :placeholder="$t('admin.enterHolder')" clearable v-model="userId"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Delete" @click="handleDelete">删除用户</el-button>
+      <el-button type="primary" :icon="Delete" @click="handleDelete">{{$t('admin.delete')}}</el-button>
     </el-row>
   </el-card> -->
   <el-card>

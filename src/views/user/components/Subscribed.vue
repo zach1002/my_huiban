@@ -1,5 +1,5 @@
 <template>
-    <el-input :placeholder="'search'" clearable v-model="searchQuery"></el-input>
+    <el-input :placeholder="$t('user.search')" clearable v-model="searchQuery" class="search"></el-input>
     <el-card>
         <GridDemo :data="subscribed" :columns="columns" :filter-key="searchQuery" :default-state=true
             :title-mapper="titleMapper" operate-name="订阅" :operation="handleButtonClick">
@@ -85,3 +85,9 @@ export default {
 
 }
 </script>
+
+<style lang="scss" scoped>
+.search {
+  margin-bottom: 10px;
+}
+</style>

@@ -1,19 +1,19 @@
 <template>
   <el-form>
-    <el-form-item label="Name">
+    <el-form-item :label="$t('user.name')">
       <el-input v-model.trim="name" />
     </el-form-item>
-    <el-form-item label="Email">
+    <el-form-item :label="$t('user.email')">
       <el-input v-model.trim="email" />
     </el-form-item>
-    <el-form-item label="Phone">
+    <el-form-item :label="$t('user.phone')">
       <el-input v-model.trim="phone" />
     </el-form-item>
-    <el-form-item label="Avatar">
+    <el-form-item :label="$t('user.avatar')">
       <el-input v-model.trim="avatar" />
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submit">Update</el-button>
+      <el-button type="primary" @click="submit">{{$t('user.update')}}</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -61,6 +61,6 @@ export default {
         })
       }
   },
-  
+
 }
 </script>

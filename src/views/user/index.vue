@@ -11,11 +11,11 @@
           <el-card>
             <el-tabs v-model="activeTab" @tab-click="handleTabClick">
 
-              <el-tab-pane label="Account" name="account">
+              <el-tab-pane :label="$t('user.account')" name="account">
                 <account  />
               </el-tab-pane>
 
-              <el-tab-pane label="Subscribed" name="Subscribed">
+              <el-tab-pane :label="$t('user.subscribed')" name="Subscribed">
                   <subscribed ref="subscribedComponent"/>
               </el-tab-pane>
 
