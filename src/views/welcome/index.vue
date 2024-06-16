@@ -65,7 +65,7 @@
 
 <script setup>
 import { Search } from '@element-plus/icons-vue'
-import { computed, onBeforeMount, ref } from 'vue'
+import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { mapState, useStore } from 'vuex'
 import GridDemo from '@/views/user/components/Grid.vue'
@@ -94,6 +94,8 @@ const handleData = () => {
     console.log(Array.isArray(tableData.value))  // 应该输出 true
     console.log(tableData.value)  // 查看实际内容
     totalLength.value = tableData.value.length
+    getData(queryForm.value.pagesize, queryForm.value.pagenum)
+    console.log(pageData.value)
     console.log(totalLength.value)
     ElMessage.success({
       message: '获取成功',
@@ -120,20 +122,17 @@ const getData = (pageSize, pageNum) => {
   const begin = pageSize * pageNum - pageSize
   let end = pageSize * pageNum
   if (Array.isArray(tableData.value)) {
-    if(end > tableData.value.length)
-    {
+    if (end > tableData.value.length) {
       end = tableData.value.length
     }
     pageData.value = tableData.value.slice(begin, end)
   } else {
-    console.error('tableData is not an array');
+    console.error('tableData is not an array')
   }
 }
 
 onBeforeMount(() => {
   handleData()
-  getData(queryForm.value.pagesize, queryForm.value.pagenum)
-  console.log(pageData.value)
 })
 
 

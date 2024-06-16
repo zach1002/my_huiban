@@ -80,7 +80,8 @@ const handleLogin = () => {
         ElMessage.success({ message: '登录成功', duration: 1000 });
         setTimeout(() => {
           if(store.getters.role===0) {
-            router.push('/admin');
+            //router.push('/admin');
+            router.push('/welcome');
           }
           else {
             router.push('/welcome');
@@ -88,6 +89,7 @@ const handleLogin = () => {
         }, 1000);
       }).catch((msg) => {
         ElMessage.error(msg);
+        console.log(msg)
       });
       return
     }
