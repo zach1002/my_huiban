@@ -1,5 +1,5 @@
 import { login, logout, getInfo, profileUpdate, getUserNum, subscribeMeeting, unsubscribeMeeting } from '@/api/user'
-import { getsubscribedMeetings, searchUser} from '@/api/user'
+import { getsubscribedMeetings, searchUser, register} from '@/api/user'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
 
@@ -77,11 +77,10 @@ const actions = {
     const { username, password, checkpassword } = userInfo
     return new Promise((resolve, reject) => {
       register({ userAccount: username, userPassword: password, checkPassword: checkpassword}).then(response => {
-
         const { data } = response
         const code = data.code // 业务状态码
         const user = data.data // 用户信息
-
+        
         if (code !== 2000) {
           const msg = data.code + ', ' + data.message + ', ' + data.detail
           reject(msg)
@@ -89,6 +88,7 @@ const actions = {
         }
         resolve()
       }).catch(error => {
+        alert(username)
         reject(error)
       })
     })
@@ -238,22 +238,22 @@ const actions = {
 
 
 
-  searchUser({ commit }, userName) {
-    return new Promise((resolve, reject) => {
-      searchUser(userName).then(response => {
-        const { data } = response
-        const code = data.code // 业务状态码
-        if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
-          reject(msg)
-          return
-        }
-        resolve(data.data)
-      }).catch(error => {
-        reject(error)
-      })
-    })
-  }
+  // searchUser({ commit }, userName) {
+  //   return new Promise((resolve, reject) => {
+  //     searchUser(userName).then(response => {
+  //       const { data } = response
+  //       const code = data.code // 业务状态码
+  //       if (code !== 2000) {
+  //         const msg = data.message + ', ' + data.detail 
+  //         reject(msg)
+  //         return
+  //       }
+  //       resolve(data.data)
+  //     }).catch(error => {
+  //       reject(error)
+  //     })
+  //   })
+  // }
 }
 
 export default {
