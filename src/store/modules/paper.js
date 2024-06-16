@@ -23,18 +23,12 @@ const mutations = {
 const actions = {
   // user login
   listPartern ({ commit }, searchInfo) {
-    const {
-      name,
-      pageNum,
-      pageSize
-    } = searchInfo
+    const name = searchInfo
     return new Promise((resolve, reject) => {
       listPartern({
-        name,
-        pageNum,
-        pageSize
+        name: name
       }).then(response => {
-
+        alert('success')
         const { data } = response
         const code = data.code // 业务状态码
 
@@ -48,6 +42,7 @@ const actions = {
         console.log(store.getters.tableData)
         resolve()
       }).catch(error => {
+        alert('error')
         reject(error)
       })
     })

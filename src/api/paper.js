@@ -2,7 +2,7 @@ import request from './request'
 
 export const listPartern = (data) => {
   return request({
-    url: '/paper/listPartern',
+    url: '/paper/search',
     method: 'POST',
     data
   })

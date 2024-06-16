@@ -36,9 +36,9 @@
   <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="$t('welcome.search')" clearable v-model="searchQuery"></el-input>
+        <el-input :placeholder="$t('welcome.search')" clearable v-model="searchInput.name"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search">{{$t('welcome.search')}}</el-button>
+      <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('welcome.search')}}</el-button>
     </el-row>
 
     <!--    <el-table :data="pageData" stripe style="width: 100%">-->
@@ -83,7 +83,7 @@ const queryForm = ref({
 })
 const store = useStore()
 
-const tableData = ref() // 初始为空数组
+let tableData = ref() // 初始为空数组
 const totalLength = ref(0)
 const pageData = ref([])
 
@@ -110,7 +110,7 @@ const handleData = () => {
       ...item,
       typeName: typeMapping[item.type] || '未知类型'
     })))
-    
+
     console.log(arr.value)
     tableData.value = arr.value
     console.log(Array.isArray(tableData.value))  // 应该输出 true
@@ -174,14 +174,36 @@ const searchInput = ref({
 })
 
 const handleSearch = () => {
-  const curData = ref([])
-  for (let index = 0; index < tableData.value.length; index++) {
-    const element = tableData.value[index]
-    if (searchInput.value.name === element.addr) {
-      curData.value.push(element)
-    }
+  if (searchInput.value.name === '') { // 成立
+    tableData = computed(() => store.state.paper.tableData)
+  } else {
+    alert('searching')
+    store.dispatch('paper/listPartern', searchInput.value.name).then((res) => {
+      console.log(res)
+      tableData.value = res
+    }).catch((msg) => {
+      alert('error-searching')
+      ElMessage.error(msg)
+    })
+
+    console.log(Array.isArray(tableData.value))  // 应该输出 true
+    console.log(tableData.value)  // 查看实际内容
+    totalLength.value = tableData.value.length
+    getData(queryForm.value.pagesize, queryForm.value.pagenum)
+    console.log(pageData.value)
+    console.log(totalLength.value)
   }
-  pageData.value = curData.value
+
+  // const curData = ref([])
+  //
+  // for (let index = 0; index < tableData.value.length; index++) {
+  //   const element = tableData.value[index]
+  //   if (searchInput.value.name === element.addr) {
+  //     curData.value.push(element)
+  //   }
+  // }
+
+  // pageData.value = curData.value
 }
 
 function handleButtonClick(row) {
