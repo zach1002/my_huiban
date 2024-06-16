@@ -39,6 +39,7 @@
         <el-input :placeholder="$t('welcome.search')" clearable v-model="searchInput.name"></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('welcome.search')}}</el-button>
+      <el-button type="primary" :icon="Refresh" @click="handleRefresh">重置</el-button>
     </el-row>
 
     <!--    <el-table :data="pageData" stripe style="width: 100%">-->
@@ -51,17 +52,18 @@
     </GridDemo>
     <el-pagination class="pagination" v-model:current-page="queryForm.pagenum" v-model:page-size="queryForm.pagesize"
       :page-sizes="[10, 20, 30]" :small="small" :disabled="disabled" :background="background"
-      layout="total, sizes, prev, pager, next, jumper" :total="totalLength" @size-change="handleSizeChange"
+      layout="total, sizes, prev, pager, next, jumper" :total="tableData.length" @size-change="handleSizeChange"
       @current-change="handleCurrentChange" />
   </el-card>
 </template>
 
 <script setup>
-import { Search } from '@element-plus/icons-vue'
+import { Search, Refresh } from '@element-plus/icons-vue'
 import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { mapState, useStore } from 'vuex'
 import GridDemo from '@/components/Grid.vue'
+
 
 const personnelCount = ref(102400) // 假设这是从变量得到的数字
 const meetingCount = ref(81212)
@@ -83,8 +85,7 @@ const queryForm = ref({
 })
 const store = useStore()
 
-let tableData = ref() // 初始为空数组
-const totalLength = ref(0)
+const tableData = ref([]) // 初始为空数组
 const pageData = ref([])
 
 // 类型映射
@@ -111,14 +112,9 @@ const handleData = () => {
       typeName: typeMapping[item.type] || '未知类型'
     })))
 
-    console.log(arr.value)
     tableData.value = arr.value
-    console.log(Array.isArray(tableData.value))  // 应该输出 true
-    console.log(tableData.value)  // 查看实际内容
-    totalLength.value = tableData.value.length
     getData(queryForm.value.pagesize, queryForm.value.pagenum)
-    console.log(pageData.value)
-    console.log(totalLength.value)
+
     ElMessage.success({
       message: '获取成功',
       duration: 1000
@@ -174,36 +170,22 @@ const searchInput = ref({
 })
 
 const handleSearch = () => {
-  if (searchInput.value.name === '') { // 成立
-    tableData = computed(() => store.state.paper.tableData)
+  if (searchInput.value.name === '') {
+    return ElMessage.error('请输入搜索内容')
   } else {
-    alert('searching')
+    // alert('searching')
     store.dispatch('paper/listPartern', searchInput.value.name).then((res) => {
       console.log(res)
       tableData.value = res
+      getData(queryForm.value.pagesize, queryForm.value.pagenum)
     }).catch((msg) => {
-      alert('error-searching')
       ElMessage.error(msg)
     })
-
-    console.log(Array.isArray(tableData.value))  // 应该输出 true
-    console.log(tableData.value)  // 查看实际内容
-    totalLength.value = tableData.value.length
-    getData(queryForm.value.pagesize, queryForm.value.pagenum)
-    console.log(pageData.value)
-    console.log(totalLength.value)
   }
+}
 
-  // const curData = ref([])
-  //
-  // for (let index = 0; index < tableData.value.length; index++) {
-  //   const element = tableData.value[index]
-  //   if (searchInput.value.name === element.addr) {
-  //     curData.value.push(element)
-  //   }
-  // }
-
-  // pageData.value = curData.value
+const handleRefresh = () => {
+  handleData()
 }
 
 function handleButtonClick(row) {

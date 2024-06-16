@@ -33,91 +33,86 @@ const props = defineProps({
   },
   operation: {
     type: Function,
-    default: () => {} // 为operation定义一个空函数作为默认值
+    default: () => { } // 为operation定义一个空函数作为默认值
   }
 })
 
 const initData = computed(() => {
-    const { defaultState } = props
-    return props.data.map(item => ({ ...item, state: defaultState }))
+  const { defaultState } = props
+  return props.data.map(item => ({ ...item, state: defaultState }))
 })
 
 const visibleColumns = computed(() => {
-    return props.columns.filter(column => column !== 'id')
+  return props.columns.filter(column => column !== 'id')
 })
 
 const sortKey = ref('')
 const sortOrder = ref(null)
 
 const filteredData = computed(() => {
-    let data = initData.value
-    let { filterKey } = props
-    if (filterKey) {
-        filterKey = filterKey.toLowerCase()
-        data = data.filter((row) => {
-            return Object.keys(row).some((key) => {
-                return String(row[key]).toLowerCase().indexOf(filterKey) > -1
-            })
-        })
-    }
-    if (sortKey.value && sortOrder.value) {
-        const key = sortKey.value
-        const order = sortOrder.value === 'ascending' ? 1 : -1
-        data = data.slice().sort((a, b) => {
-            a = a[key]
-            b = b[key]
-            return (a === b ? 0 : a > b ? 1 : -1) * order
-        })
-    }
-    return data
+  let data = initData.value
+  let { filterKey } = props
+  if (filterKey) {
+    filterKey = filterKey.toLowerCase()
+    data = data.filter((row) => {
+      return Object.keys(row).some((key) => {
+        return String(row[key]).toLowerCase().indexOf(filterKey) > -1
+      })
+    })
+  }
+  if (sortKey.value && sortOrder.value) {
+    const key = sortKey.value
+    const order = sortOrder.value === 'ascending' ? 1 : -1
+    data = data.slice().sort((a, b) => {
+      a = a[key]
+      b = b[key]
+      return (a === b ? 0 : a > b ? 1 : -1) * order
+    })
+  }
+  return data
 })
 
 function handleSortChange({ prop, order }) {
-    sortKey.value = prop
-    sortOrder.value = order
+  sortKey.value = prop
+  sortOrder.value = order
 }
 
 function capitalize(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1)
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 function handleOperation(row) {
-    props.operation(row)
+  props.operation(row)
 }
 
-function getTitle(key){
-    return props.titleMapper[key] || capitalize(key)
+function getTitle(key) {
+  return props.titleMapper[key] || capitalize(key)
 }
 </script>
 
 <template>
-    <el-table :data="filteredData" @sort-change="handleSortChange" style="width: 100%">
-        <el-table-column
-            v-for="key in visibleColumns"
-            :key="key"
-            :prop="key"
-            :label="getTitle(key)"
-            sortable="custom">
-          <template v-slot:default="scope">
-            <!-- 检查列名，如果是'name'列，渲染为链接 -->
-            <div v-if="key === 'addr'">
-              <router-link :to="{ name: 'single', params: { id: scope.row['id'] }}">
-                {{ scope.row[key] }}
-              </router-link>
-            </div>
-            <div v-else>
-              {{ scope.row[key] }}
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column v-if="props.operateName" :label="props.operateName" width="180">
-            <template v-slot="scope">
-                <el-button @click="handleOperation(scope.row)">
-                    {{ scope.row.state ? 'undo' : 'do' }}
-                </el-button>
-            </template>
-        </el-table-column>
-    </el-table>
+  <el-table :data="filteredData" @sort-change="handleSortChange" style="width: 100%">
+    <el-table-column v-for="key in visibleColumns" :key="key" :prop="key" :label="getTitle(key)" sortable="custom">
+      <template v-slot:default="scope">
+        <!-- 检查列名，如果是'name'列，渲染为链接 -->
+        <div v-if="key === 'addr'">
+          <router-link :to="{ name: 'single', params: { id: scope.row['id'] } }">
+            {{ scope.row[key] }}
+          </router-link>
+        </div>
+        <div v-else>
+          {{ scope.row[key] }}
+        </div>
+      </template>
+    </el-table-column>
+    <el-table-column v-if="props.operateName" :label="props.operateName" width="180">
+      <template v-slot="scope">
+        <el-button @click="handleOperation(scope.row)">
+          {{ scope.row.state ? 'undo' : 'do' }}
+        </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
 </template>
 
 <style scoped>

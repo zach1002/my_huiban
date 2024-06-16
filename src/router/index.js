@@ -33,6 +33,11 @@ const routes = [
         name: 'admin',
         component: () => import('../views/admin')
       },
+      {
+        path: '/single/:id', // 注意这里的 `:id` 是参数占位符
+        name: 'single',
+        // component: SingleComponent // `SingleComponent` 是该路由对应的组件
+      },
     ]
   },
 ]

@@ -1,68 +1,20 @@
 <template>
-  <!-- <el-card>
-    <el-row :gutter="20" class="header">
-      <el-col :span="7">
-        <el-input :placeholder="$t('admin.searchHolder')" clearable v-model="searchInput.name"></el-input>
-      </el-col>
-      <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('admin.search')}}</el-button>
-    </el-row>
-
-    <el-table :data="pageData" stripe style="width: 100%">
-    <el-table-column prop="name" label="Name" width="180" />
-    <el-table-column prop="type" label="Type" width="180" />
-    <el-table-column prop="fullName" label="FullName" />
-    </el-table>
-    <el-pagination class="pagination"
-      v-model:current-page="queryForm.pagenum"
-      v-model:page-size="queryForm.pagesize"
-      :page-sizes="[2, 4, 8]"
-      :small="small"
-      :disabled="disabled"
-      :background="background"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="totalLength"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-    />
-  </el-card>
-
-  <el-card class="buttom-part">
-    <el-row :gutter="20" class="header">
-      <el-col :span="7">
-        <el-input :placeholder="$t('admin.enterHolder')" clearable v-model="userId"></el-input>
-      </el-col>
-      <el-button type="primary" :icon="Delete" @click="handleDelete">{{$t('admin.delete')}}</el-button>
-    </el-row>
-  </el-card> -->
   <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
         <el-input :placeholder="$t('welcome.search')" clearable v-model="searchQuery"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('welcome.search')}}</el-button>
+      <el-button type="primary" :icon="Search" @click="handleSearch">{{ $t('welcome.search') }}</el-button>
       <el-button type="primary" :icon="Refresh" @click="handleRefresh">重置</el-button>
     </el-row>
-    <GridDemo 
-    :data="pageData" 
-    :columns="gridColumns" 
-    :filter-key="searchQuery" 
-    :title-mapper="titleMapper" 
-    operate-name="删除" 
-    :operation="handleDelete">
+    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchQuery" :title-mapper="titleMapper"
+      operate-name="删除" :operation="handleDelete">
     </GridDemo>
   </el-card>
-  <el-pagination class="pagination"
-                  v-model:current-page="queryForm.pagenum"
-                  v-model:page-size="queryForm.pagesize"
-                  :page-sizes="[10, 20, 30]"
-                  :small="small"
-                  :disabled="disabled"
-                  :background="background"
-                  layout="total, sizes, prev, pager, next, jumper"
-                  :total="totalLength"
-                  @size-change="handleSizeChange"
-                  @current-change="handleCurrentChange"
-    />
+  <el-pagination class="pagination" v-model:current-page="queryForm.pagenum" v-model:page-size="queryForm.pagesize"
+    :page-sizes="[10, 20, 30]" :small="small" :disabled="disabled" :background="background"
+    layout="total, sizes, prev, pager, next, jumper" :total="tableData.length" @size-change="handleSizeChange"
+    @current-change="handleCurrentChange" />
 </template>
 
 
@@ -79,7 +31,7 @@ const store = useStore()
 
 const searchQuery = ref('')
 const tableData = ref([])
-const gridColumns = ['userId', 'userAccount', 'userName', 'email', 'phone','createTime', 'updateTime', 'role']
+const gridColumns = ['userId', 'userAccount', 'userName', 'email', 'phone', 'createTime', 'updateTime', 'role']
 const titleMapper = {
   userId: 'UID',
   userAccount: '账户名',
@@ -90,7 +42,6 @@ const titleMapper = {
   updateTime: '更新时间',
   role: '权限'
 }
-const totalLength = ref(tableData.value.length);
 
 const queryForm = ref({
   pagenum: 1,
@@ -119,12 +70,10 @@ const handleData = () => {
   store.dispatch('user/listAll').then(res => {
     tableData.value = res
     tableData.value.forEach(item => {
-      item.role = item.permission === 1 ? '普通用户': '管理员' 
+      item.role = item.permission === 1 ? '普通用户' : '管理员'
     })
-
-    totalLength.value = tableData.value.length
     getData(queryForm.value.pagesize, queryForm.value.pagenum)
-  }).catch( (err) => {
+  }).catch((err) => {
     console.log(err)
   })
 }
@@ -147,28 +96,45 @@ const handleCurrentChange = (pageNum) => {
 
 const handleSearch = () => {
   store.dispatch('user/searchUser', searchQuery.value).then(res => {
-    pageData.value = res
+    tableData.value = res
+    getData(queryForm.value.pagesize, queryForm.value.pagenum)
     ElMessage({
-          message: 'Search successfully',
-          type: 'success',
-          duration: 1000
-      })
+      message: 'Search successfully',
+      type: 'success',
+      duration: 1000
+    })
   }).catch((msg) => {
     ElMessage.error(msg)
   })
 }
 
 const handleDelete = (row) => {
-  const message = 'Delete successfully'
-  store.dispatch(`user/deleteUser`, row.userId).then(() => {
-      ElMessage({
-          message: message,
+  ElMessageBox.confirm(
+    'delete this user. Continue?',
+    'Warning',
+    {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      store.dispatch(`user/deleteUser`, row.userId).then(() => {
+        ElMessage({
+          message: 'Delete successfully',
           type: 'success',
           duration: 1000
+        })
+      }).catch((msg) => {
+        ElMessage.error(msg)
       })
-  }).catch((msg) => {
-      ElMessage.error(msg)
-  })
+    })
+    .catch(() => {
+      ElMessage({
+        type: 'info',
+        message: 'Delete canceled',
+      })
+    })
 }
 
 const handleRefresh = () => {
@@ -179,21 +145,21 @@ const handleRefresh = () => {
 </script>
 
 <style lang="scss" scoped>
-
-.header{
+.header {
   padding-bottom: 16px;
   box-sizing: border-box;
 }
 
-.pagination{
-  margin-top:10px;
+.pagination {
+  margin-top: 10px;
 }
 
 .card-container {
   display: flex;
   justify-content: flex-start;
+
   .card {
-    width:20%;
+    width: 20%;
     margin-bottom: 10px;
     margin-left: 5px;
     margin-right: 5px;
@@ -228,5 +194,4 @@ const handleRefresh = () => {
 .buttom-part {
   margin-top: 10px;
 }
-
 </style>

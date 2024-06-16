@@ -21,14 +21,14 @@ const mutations = {
 }
 
 const actions = {
-  // user login
-  listPartern ({ commit }, searchInfo) {
+  // search
+  listPartern({ commit }, searchInfo) {
     const name = searchInfo
     return new Promise((resolve, reject) => {
       listPartern({
         name: name
       }).then(response => {
-        alert('success')
+        // alert('success')
         const { data } = response
         const code = data.code // 业务状态码
 
@@ -37,19 +37,16 @@ const actions = {
           reject(msg)
           return
         }
-
-        commit('SET_TABLE_DATA', data.data)
-        console.log(store.getters.tableData)
-        resolve()
+        resolve(data.data)
       }).catch(error => {
-        alert('error')
+        // alert('error')
         reject(error)
       })
     })
   },
 
   // get paper info
-  listAll ({
+  listAll({
     commit,
     state
   }) {
@@ -74,7 +71,7 @@ const actions = {
     })
   },
 
-  getPaperNum ({commit}) {
+  getPaperNum({ commit }) {
     return new Promise((resolve, reject) => {
       getPaperNum().then(response => {
         const { data } = response
