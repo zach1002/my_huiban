@@ -51,3 +51,17 @@ export const getsubscribedMeetings = () => {
     method: 'GET'
   })
 }
+
+export const subscribeMeeting = (data) => {
+  return request({
+    url: `/user/subscribeMeeting?paperID=${data}`,
+    method: 'GET',
+  })
+}
+
+export const unsubscribeMeeting = (data) => {
+  return request({
+    url: `/user/unsubscribeMeeting?paperID=${data}`,
+    method: 'GET',
+  })
+}

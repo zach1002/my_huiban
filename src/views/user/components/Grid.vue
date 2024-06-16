@@ -1,6 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue'
-import { ElTable, ElTableColumn } from 'element-plus'
+import { ElTable, ElTableColumn, ElButton } from 'element-plus'
+import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
+
+const store = useStore()
 
 const props = defineProps({
     data: Array,
@@ -8,11 +12,21 @@ const props = defineProps({
     filterKey: String
 })
 
+// 初始化时，为每个数据项添加subscribed属性
+const initData = computed(() => {
+    return props.data.map(item => ({ ...item, subscribed: true }))
+})
+
+const visibleColumns = computed(() => {
+    return props.columns.filter(column => column !== 'id')
+})
+
 const sortKey = ref('')
-const sortOrder = ref(null) // Element UI使用单一排序，这里我们只需要一个排序状态
+const sortOrder = ref(null)
 
 const filteredData = computed(() => {
-    let { data, filterKey } = props
+    let data = initData.value
+    let { filterKey } = props
     if (filterKey) {
         filterKey = filterKey.toLowerCase()
         data = data.filter((row) => {
@@ -41,19 +55,41 @@ function handleSortChange({ prop, order }) {
 function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
+
+function handleButtonClick(row) {
+    const action = row.subscribed ? 'unsubscribeMeeting' : 'subscribeMeeting'
+    const message = row.subscribed ? 'Unsubscribe successfully' : 'Subscribe successfully'
+    store.dispatch(`user/${action}`, row.id).then(() => {
+        row.subscribed = !row.subscribed
+        ElMessage({
+            message: message,
+            type: 'success',
+            duration: 1000
+        })
+    }).catch((msg) => {
+        ElMessage.error(msg)
+    })
+}
+
 </script>
 
 <template>
     <el-table :data="filteredData" @sort-change="handleSortChange" style="width: 100%">
         <el-table-column
-            v-for="key in columns"
+            v-for="key in visibleColumns"
             :key="key"
             :prop="key"
             :label="capitalize(key)"
             sortable="custom">
         </el-table-column>
+        <el-table-column label="操作" width="180">
+            <template v-slot="scope">
+                <el-button @click="handleButtonClick(scope.row)">
+                    {{ scope.row.subscribed ? '取消订阅' : '订阅' }}
+                </el-button>
+            </template>
+        </el-table-column>
     </el-table>
-    <!-- <p v-if="!filteredData.length">No matches found.</p> -->
 </template>
 
 <style scoped>
