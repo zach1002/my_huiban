@@ -49,13 +49,13 @@ const actions = {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
       login({ userAccount: username, userPassword: password }).then(response => {
-        
+
         const { data } = response
         const code = data.code // 业务状态码
         const user = data.data // 用户信息
 
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
+          const msg = data.message + ', ' + data.detail
           reject(msg)
           return
         }
@@ -64,7 +64,29 @@ const actions = {
         localStorage.setItem('isLogged', 'true');
         const userInfo = getUserInfo(user)
         commit('SET_USER_INFO', userInfo)
-        
+
+        resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  //register
+  register({ commit }, userInfo) {
+    const { username, password, checkpassword } = userInfo
+    return new Promise((resolve, reject) => {
+      register({ userAccount: username, userPassword: password, checkPassword: checkpassword}).then(response => {
+
+        const { data } = response
+        const code = data.code // 业务状态码
+        const user = data.data // 用户信息
+
+        if (code !== 2000) {
+          const msg = data.code + ', ' + data.message + ', ' + data.detail
+          reject(msg)
+          return
+        }
         resolve()
       }).catch(error => {
         reject(error)
@@ -123,14 +145,14 @@ const actions = {
         const user = data.data // 用户信息
 
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
+          const msg = data.message + ', ' + data.detail
           reject(msg)
           return
         }
 
         const userInfo = getUserInfo(user)
         commit('SET_USER_INFO', userInfo)
-        
+
         resolve()
       }).catch(error => {
         reject(error)
@@ -146,7 +168,7 @@ const actions = {
         const userNum = data.data // 用户信息
 
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
+          const msg = data.message + ', ' + data.detail
           reject(msg)
           return
         }
@@ -168,7 +190,7 @@ const actions = {
         const subscribedMeetings = data.data // 用户信息
 
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
+          const msg = data.message + ', ' + data.detail
           reject(msg)
           return
         }
@@ -186,7 +208,7 @@ const actions = {
         const { data } = response
         const code = data.code // 业务状态码
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
+          const msg = data.message + ', ' + data.detail
           reject(msg)
           return
         }
@@ -203,7 +225,7 @@ const actions = {
         const { data } = response
         const code = data.code // 业务状态码
         if (code !== 2000) {
-          const msg = data.message + ', ' + data.detail 
+          const msg = data.message + ', ' + data.detail
           reject(msg)
           return
         }
@@ -213,6 +235,8 @@ const actions = {
       })
     })
   },
+
+
 }
 
 export default {
