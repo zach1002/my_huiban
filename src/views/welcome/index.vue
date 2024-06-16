@@ -36,20 +36,22 @@
   <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'search'" clearable v-model="searchInput.name"></el-input>
+        <el-input :placeholder="'search'" clearable v-model="searchQuery"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search" @click="handleSearch">Search</el-button>
+      <el-button type="primary" :icon="Search">Search</el-button>
     </el-row>
 
-    <el-table :data="pageData" stripe style="width: 100%">
-      <el-table-column prop="addr" label="Name" width="180"/>
-      <el-table-column prop="type" label="Type" width="180"/>
-      <el-table-column prop="fullName" label="FullName"/>
-    </el-table>
+<!--    <el-table :data="pageData" stripe style="width: 100%">-->
+<!--      <el-table-column prop="addr" label="Name" width="180"/>-->
+<!--      <el-table-column prop="type" label="Type" width="180"/>-->
+<!--      <el-table-column prop="fullName" label="FullName"/>-->
+<!--    </el-table>-->
+    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchQuery">
+    </GridDemo>
     <el-pagination class="pagination"
                    v-model:current-page="queryForm.pagenum"
                    v-model:page-size="queryForm.pagesize"
-                   :page-sizes="[2, 4, 8]"
+                   :page-sizes="[10, 20, 30]"
                    :small="small"
                    :disabled="disabled"
                    :background="background"
@@ -63,16 +65,19 @@
 
 <script setup>
 import { Search } from '@element-plus/icons-vue'
-import { computed, onBeforeMount, onMounted, ref } from 'vue'
+import { computed, onBeforeMount, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { mapState, useStore } from 'vuex'
+import GridDemo from '@/views/user/components/Grid.vue'
 
 const personnelCount = ref(102400) // 假设这是从变量得到的数字
 const meetingCount = ref(81212)
+const searchQuery = ref('')
 
+const gridColumns = ['addr', 'fullName', 'publicer', 'level', 'isConference', 'type']
 const queryForm = ref({
   pagenum: 1,
-  pagesize: 2
+  pagesize: 10
 })
 const store = useStore()
 
@@ -145,7 +150,7 @@ const handleSearch = () => {
   const curData = ref([])
   for (let index = 0; index < tableData.value.length; index++) {
     const element = tableData.value[index]
-    if (searchInput.value.name === element.name) {
+    if (searchInput.value.name === element.addr) {
       curData.value.push(element)
     }
   }
