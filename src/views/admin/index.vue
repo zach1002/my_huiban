@@ -1,10 +1,10 @@
 <template>
-  <el-card>
+  <!-- <el-card>
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'查询用户信息'" clearable v-model="searchInput.name"></el-input>
+        <el-input :placeholder="$t('admin.searchHolder')" clearable v-model="searchInput.name"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+      <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('admin.search')}}</el-button>
     </el-row>
 
     <el-table :data="pageData" stripe style="width: 100%">
@@ -29,73 +29,83 @@
   <el-card class="buttom-part">
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'输入uid'" clearable v-model="searchInput.name"></el-input>
+        <el-input :placeholder="$t('admin.enterHolder')" clearable v-model="userId"></el-input>
       </el-col>
-      <el-button type="primary" :icon="Delete" @click="handleDelete">删除用户</el-button>
+      <el-button type="primary" :icon="Delete" @click="handleDelete">{{$t('admin.delete')}}</el-button>
     </el-row>
+  </el-card> -->
+  <el-card>
+    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchInput.name"> </GridDemo>
   </el-card>
+  <el-pagination class="pagination"
+                   v-model:current-page="queryForm.pagenum"
+                   v-model:page-size="queryForm.pagesize"
+                   :page-sizes="[10, 20, 30]"
+                   :small="small"
+                   :disabled="disabled"
+                   :background="background"
+                   layout="total, sizes, prev, pager, next, jumper"
+                   :total="totalLength"
+                   @size-change="handleSizeChange"
+                   @current-change="handleCurrentChange"
+    />
 </template>
 
 <script setup>
 import { Search, Delete } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { computed, onBeforeMount } from 'vue'
+import { useStore } from 'vuex'
+import GridDemo from '@/components/Grid.vue'
+
+const store = useStore()
+
+
+const tableData = ref([])
+const gridColumns = ['userId', 'userAccount', 'userName', 'email', 'phone','createTime', 'updateTime']
+const totalLength = ref(tableData.value.length);
 
 const queryForm = ref({
   pagenum: 1,
-  pagesize: 2
+  pagesize: 8
 })
-
-const tableData = ref([
-  {
-    name: 'TPAMI',
-    type: 'A',
-    fullName: 'IEEE Trans on Pattern Analysis and Machine Intelligence',
-  },
-  {
-    name: 'AI',
-    type: 'A',
-    fullName: 'Artificial Intelligence',
-  },
-  {
-    name: 'IJCV',
-    type: 'A',
-    fullName: 'International Journal of Computer Vision',
-  },
-  {
-    name: 'JMLR',
-    type: 'A',
-    fullName: 'Journal of Machine Learning Research',
-  },
-  {
-    name: 'TAP',
-    type: 'B',
-    fullName: 'ACM Transactions on Applied Perception',
-  },
-  {
-    name: 'TSLP',
-    type: 'B',
-    fullName: 'ACM Transactions on Speech and Language Processing',
-  },
-  {
-    name: 'AAMAS',
-    type: 'B',
-    fullName: 'Autonomous Agents and Multi-Agent Systems',
-  },
-  {
-    name: 'EAAI',
-    type: 'C',
-    fullName: 'Engineering Applications of Artificial Intelligence',
-  }
-])
-const totalLength = ref(tableData.value.length);
 let pageData = ref([])
 
+const searchInput = ref({
+    name: ''
+})
+
+const userId = ref()
+
 const getData = (pageSize, pageNum) => {
-  const begin = pageSize*pageNum - pageSize
-  const end = pageSize*pageNum
-  pageData.value = tableData.value.slice(begin, end);
+  const begin = pageSize * pageNum - pageSize
+  let end = pageSize * pageNum
+  if (Array.isArray(tableData.value)) {
+    if (end > tableData.value.length) {
+      end = tableData.value.length
+    }
+    pageData.value = tableData.value.slice(begin, end)
+  } else {
+    console.error('tableData is not an array')
+  }
 }
-getData(queryForm.value.pagesize, queryForm.value.pagenum)
+
+const handleData = () => {
+  store.dispatch('user/listAll').then(res => {
+    tableData.value = res
+    totalLength.value = tableData.value.length
+    getData(queryForm.value.pagesize, queryForm.value.pagenum)
+  }).catch( (err) => {
+    console.log(err)
+  })
+
+
+}
+
+onBeforeMount(() => {
+  handleData()
+})
+
 
 const handleSizeChange = (pageSize) => {
   queryForm.value.pagenum = 1
@@ -108,9 +118,7 @@ const handleCurrentChange = (pageNum) => {
   getData(queryForm.value.pagesize, queryForm.value.pagenum)
 }
 
-const searchInput = ref({
-    name: ''
-})
+
 
 const handleSearch = () => {
     let curData = ref([])

@@ -13,13 +13,13 @@
             <el-icon :size="20" class="svg-container">
                 <User />
             </el-icon>
-            <el-input v-model="form.username"></el-input>
+            <el-input v-model="form.username" :placeholder="$t('login.nameInput')"></el-input>
         </el-form-item>
         <el-form-item prop="password">
             <el-icon :size="20" class="svg-container">
                 <Lock />
             </el-icon>
-            <el-input v-model="form.password" :type="passwordType"></el-input>
+            <el-input v-model="form.password" :placeholder="$t('login.passwordInput')" :type="passwordType"></el-input>
             <el-icon :size="20" class="svg-container" @click="changeType" v-if="passwordType === 'password'">
                 <Hide />
             </el-icon>
@@ -80,7 +80,8 @@ const handleLogin = () => {
         ElMessage.success({ message: '登录成功', duration: 1000 });
         setTimeout(() => {
           if(store.getters.role===0) {
-            router.push('/admin');
+            //router.push('/admin');
+            router.push('/welcome');
           }
           else {
             router.push('/welcome');
@@ -88,6 +89,7 @@ const handleLogin = () => {
         }, 1000);
       }).catch((msg) => {
         ElMessage.error(msg);
+        console.log(msg)
       });
       return
     }

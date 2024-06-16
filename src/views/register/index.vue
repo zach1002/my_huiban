@@ -13,13 +13,25 @@
             <el-icon :size="20" class="svg-container">
                 <User />
             </el-icon>
-            <el-input v-model="form.username"></el-input>
+            <el-input v-model="form.username" :placeholder="$t('register.nameInput')" ></el-input>
         </el-form-item>
         <el-form-item prop="password">
             <el-icon :size="20" class="svg-container">
                 <Lock />
             </el-icon>
-            <el-input v-model="form.password" :type="passwordType"></el-input>
+            <el-input v-model="form.password" :placeholder="$t('register.passwordInput')" :type="passwordType"></el-input>
+            <el-icon :size="20" class="svg-container" @click="changeType" v-if="passwordType === 'password'">
+                <Hide />
+            </el-icon>
+            <el-icon :size="20" class="svg-container" @click="changeType" v-else>
+                <View />
+            </el-icon>
+        </el-form-item>
+        <el-form-item prop="password">
+            <el-icon :size="20" class="svg-container">
+              <Warning />
+            </el-icon>
+            <el-input v-model="form.checkpassword" :placeholder="$t('register.passwordCheck')" :type="passwordType"></el-input>
             <el-icon :size="20" class="svg-container" @click="changeType" v-if="passwordType === 'password'">
                 <Hide />
             </el-icon>
@@ -38,14 +50,15 @@
 
 <script setup>
 import { ref } from 'vue'
-import { User, Lock, View, Hide } from '@element-plus/icons-vue'
+import { User, Lock, View, Hide, Warning} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import { ElForm, ElFormItem, ElInput, ElButton, ElIcon, ElMessage } from 'element-plus';
 import { useStore } from 'vuex';
 
 const form = ref({
-    username: 'admin',
-    password: '123456'
+    username: '',
+    password: '',
+    checkpassword: ''
 })
 
 // 表单校验，验证用户名密码是否符合规则
@@ -60,7 +73,14 @@ const rules = ref({
     password: [
         {
             required: true,
-            message: 'Please input Activity name',
+            message: 'Please input Activity password',
+            trigger: 'blur',
+        }
+    ],
+    checkpassword: [
+        {
+            required: true,
+            message: 'Please input Activity password',
             trigger: 'blur',
         }
     ]
@@ -70,9 +90,13 @@ const rules = ref({
 const formRef = ref(null)
 const router = useRouter();
 const store = useStore();
-// 处理登录
+// 处理注册
 const handleForRegister = () => {
-
+  store.dispatch('user/register', form.value).then(() => {
+    ElMessage.success({ message: '注册成功', duration: 1000 });
+  }).catch((msg) => {
+        ElMessage.error(msg);
+      });
 };
 
 const handleToLogin = () => {

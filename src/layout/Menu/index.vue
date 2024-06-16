@@ -31,7 +31,7 @@
     <el-menu-item>
       <a href="https://www.myhuiban.com/" target="_blank" style="color: inherit; text-decoration: none;">
       <el-icon><Share /></el-icon>
-      <span> External Link</span>
+      <span>{{$t('menus.link')}}</span>
       </a>
     </el-menu-item>
   </el-menu>
