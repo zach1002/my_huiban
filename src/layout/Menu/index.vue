@@ -55,7 +55,7 @@ Share
 .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #ed6c10;
+      color: #fbf7f4;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;
