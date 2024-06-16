@@ -98,10 +98,10 @@ const changeType = () => {
   appearance: $value;
 }
 
-$bg: #2d3a4b;
-$dark_gray: #889aa4;
-$light_gray: #eee;
-$cursor: #fff;
+$bg: #ffffff;
+$dark_gray: #82afc7;
+$light_gray: #ba4747;
+$cursor: #dd9c9c;
 
 .login-container {
   min-height: 100%;
@@ -227,7 +227,7 @@ $cursor: #fff;
 .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #ed6c10;
+      color: #ffffff;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;
