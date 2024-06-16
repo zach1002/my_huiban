@@ -7,16 +7,39 @@ import { ElMessage } from 'element-plus'
 const store = useStore()
 
 const props = defineProps({
-    data: Array,
-    columns: Array,
-    filterKey: String,
-    isSubscribed: Boolean
+  data: {
+    type: Array,
+    default: () => [] // 为data定义一个空数组作为默认值
+  },
+  columns: {
+    type: Array,
+    default: () => [] // 为columns定义一个空数组作为默认值
+  },
+  filterKey: {
+    type: String,
+    default: '' // 为filterKey定义一个空字符串作为默认值
+  },
+  titleMapper: {
+    type: Object,
+    default: () => ({}) // 为titleMapper定义一个空对象作为默认值
+  },
+  operateName: {
+    type: String,
+    default: '' // 为operateName定义一个空字符串作为默认值
+  },
+  defaultState: {
+    type: Boolean,
+    default: false // 为defaultState定义false作为默认值
+  },
+  operation: {
+    type: Function,
+    default: () => {} // 为operation定义一个空函数作为默认值
+  }
 })
 
-// 初始化时，为每个数据项添加subscribed属性
 const initData = computed(() => {
-    const { isSubscribed } = props
-    return props.data.map(item => ({ ...item, subscribed: isSubscribed }))
+    const { defaultState } = props
+    return props.data.map(item => ({ ...item, state: defaultState }))
 })
 
 const visibleColumns = computed(() => {
@@ -58,21 +81,13 @@ function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
-function handleButtonClick(row) {
-    const action = row.subscribed ? 'unsubscribeMeeting' : 'subscribeMeeting'
-    const message = row.subscribed ? 'Unsubscribe successfully' : 'Subscribe successfully'
-    store.dispatch(`user/${action}`, row.id).then(() => {
-        row.subscribed = !row.subscribed
-        ElMessage({
-            message: message,
-            type: 'success',
-            duration: 1000
-        })
-    }).catch((msg) => {
-        ElMessage.error(msg)
-    })
+function handleOperation(row) {
+    props.operation(row)
 }
 
+function getTitle(key){
+    return props.titleMapper[key] || capitalize(key)
+}
 </script>
 
 <template>
@@ -81,13 +96,13 @@ function handleButtonClick(row) {
             v-for="key in visibleColumns"
             :key="key"
             :prop="key"
-            :label="capitalize(key)"
+            :label="getTitle(key)"
             sortable="custom">
         </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column v-if="props.operateName" :label="props.operateName" width="180">
             <template v-slot="scope">
-                <el-button @click="handleButtonClick(scope.row)">
-                    {{ scope.row.subscribed ? '取消订阅' : '订阅' }}
+                <el-button @click="handleOperation(scope.row)">
+                    {{ scope.row.state ? 'undo' : 'do' }}
                 </el-button>
             </template>
         </el-table-column>

@@ -1,5 +1,5 @@
 import { login, logout, getInfo, profileUpdate, getUserNum, subscribeMeeting, unsubscribeMeeting } from '@/api/user'
-import { getsubscribedMeetings, searchUser, register} from '@/api/user'
+import { getsubscribedMeetings, searchUser, register, listAll} from '@/api/user'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
 
@@ -236,8 +236,6 @@ const actions = {
     })
   },
 
-
-
   // searchUser({ commit }, userName) {
   //   return new Promise((resolve, reject) => {
   //     searchUser(userName).then(response => {
@@ -253,7 +251,24 @@ const actions = {
   //       reject(error)
   //     })
   //   })
-  // }
+  // },
+
+  listAll({ commit }) {
+    return new Promise((resolve, reject) => {
+      listAll().then(response => {
+        const { data } = response
+        const code = data.code // 业务状态码
+        if (code !== 2000) {
+          const msg = data.message + ', ' + data.detail 
+          reject(msg)
+          return
+        }
+        resolve(data.data)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
 }
 
 export default {

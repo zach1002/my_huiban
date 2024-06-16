@@ -72,3 +72,10 @@ export const searchUser = (data) => {
     method: 'GET',
   })
 }
+
+export const listAll = () => {
+  return request({
+    url: `/user/listAll`,
+    method: 'GET',
+  })
+}

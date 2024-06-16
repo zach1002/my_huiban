@@ -41,25 +41,18 @@
       <el-button type="primary" :icon="Search">Search</el-button>
     </el-row>
 
-<!--    <el-table :data="pageData" stripe style="width: 100%">-->
-<!--      <el-table-column prop="addr" label="Name" width="180"/>-->
-<!--      <el-table-column prop="type" label="Type" width="180"/>-->
-<!--      <el-table-column prop="fullName" label="FullName"/>-->
-<!--    </el-table>-->
-    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchQuery" :is-subscribed=false>
+    <!--    <el-table :data="pageData" stripe style="width: 100%">-->
+    <!--      <el-table-column prop="addr" label="Name" width="180"/>-->
+    <!--      <el-table-column prop="type" label="Type" width="180"/>-->
+    <!--      <el-table-column prop="fullName" label="FullName"/>-->
+    <!--    </el-table>-->
+    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchQuery" :title-mapper="titleMapper"
+      operate-name="订阅" :operation="handleButtonClick" :default-state=false>
     </GridDemo>
-    <el-pagination class="pagination"
-                   v-model:current-page="queryForm.pagenum"
-                   v-model:page-size="queryForm.pagesize"
-                   :page-sizes="[10, 20, 30]"
-                   :small="small"
-                   :disabled="disabled"
-                   :background="background"
-                   layout="total, sizes, prev, pager, next, jumper"
-                   :total="totalLength"
-                   @size-change="handleSizeChange"
-                   @current-change="handleCurrentChange"
-    />
+    <el-pagination class="pagination" v-model:current-page="queryForm.pagenum" v-model:page-size="queryForm.pagesize"
+      :page-sizes="[10, 20, 30]" :small="small" :disabled="disabled" :background="background"
+      layout="total, sizes, prev, pager, next, jumper" :total="totalLength" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange" />
   </el-card>
 </template>
 
@@ -68,13 +61,22 @@ import { Search } from '@element-plus/icons-vue'
 import { computed, onBeforeMount, onMounted, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { mapState, useStore } from 'vuex'
-import GridDemo from '@/views/user/components/Grid.vue'
+import GridDemo from '@/components/Grid.vue'
 
 const personnelCount = ref(102400) // 假设这是从变量得到的数字
 const meetingCount = ref(81212)
 const searchQuery = ref('')
 
-const gridColumns = ['level', 'addr', 'fullName', 'url', 'publicer' , 'isConference', 'type']
+const gridColumns = ['level', 'addr', 'fullName', 'url', 'publicer', 'isConference', 'typeName']
+const titleMapper = {
+  addr: '简称',
+  fullName: '全称',
+  publicer: '出版社',
+  url: '官网',
+  level: '级别',
+  isConference: '类型',
+  typeName: '类别',
+}
 const queryForm = ref({
   pagenum: 1,
   pagesize: 10
@@ -85,10 +87,30 @@ const tableData = ref() // 初始为空数组
 const totalLength = ref(0)
 const pageData = ref([])
 
+// 类型映射
+const typeMapping = {
+  1: '计算机体系结构/并行与分布计算/存储系统',
+  2: '计算机网络',
+  3: '网络与信息安全',
+  4: '软件工程/系统软件/程序设计语言',
+  5: '数据库/数据挖掘/内容检索',
+  6: '计算机科学理论',
+  7: '计算机图形学与多媒体',
+  8: '人工智能',
+  9: '人机交互与普适计算',
+  10: '交叉/综合/新兴'
+};
+
 const handleData = () => {
   store.dispatch('paper/listAll').then(() => {
     console.log(tableData)
-    const arr = computed(() => store.state.paper.tableData)
+    const raw_arr = computed(() => store.state.paper.tableData)
+    // const arr = store.state.paper.tableData
+    const arr = computed(() => raw_arr.value.map(item => ({
+      ...item,
+      typeName: typeMapping[item.type] || '未知类型'
+    })))
+    
     console.log(arr.value)
     tableData.value = arr.value
     console.log(Array.isArray(tableData.value))  // 应该输出 true
@@ -162,12 +184,26 @@ const handleSearch = () => {
   pageData.value = curData.value
 }
 
+function handleButtonClick(row) {
+  const action = row.state ? 'unsubscribeMeeting' : 'subscribeMeeting'
+  const message = row.state ? 'Unsubscribe successfully' : 'Subscribe successfully'
+  store.dispatch(`user/${action}`, row.id).then(() => {
+    row.state = !row.state
+    ElMessage({
+      message: message,
+      type: 'success',
+      duration: 1000
+    })
+  }).catch((msg) => {
+    row.state = !row.state
+    ElMessage.error(msg)
+  })
+}
 
 
 </script>
 
 <style lang="scss" scoped>
-
 .header {
   padding-bottom: 16px;
   box-sizing: border-box;
@@ -213,5 +249,4 @@ const handleSearch = () => {
 .title-container {
   margin-bottom: 5px;
 }
-
 </style>

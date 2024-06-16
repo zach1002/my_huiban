@@ -11,7 +11,7 @@ router.beforeEach(async(to, from, next) => {
             // 恢复登录状态到 Vuex
             store.commit('user/SET_IS_LOGIN', true);
             store.dispatch('user/getInfo').then(() => {
-                console.log('getInfo success')
+                // console.log('getInfo success')
             }).catch((error)=>{alert(error)});
         }
     }
