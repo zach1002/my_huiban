@@ -83,6 +83,17 @@ function handleButtonClick(row) {
             :prop="key"
             :label="capitalize(key)"
             sortable="custom">
+          <template v-slot:default="scope">
+            <!-- 检查列名，如果是'name'列，渲染为链接 -->
+            <div v-if="key === 'addr'">
+              <router-link :to="{ name: 'single', params: { id: scope.row['id'] }}">
+                {{ scope.row[key] }}
+              </router-link>
+            </div>
+            <div v-else>
+              {{ scope.row[key] }}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
             <template v-slot="scope">
