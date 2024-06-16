@@ -116,20 +116,26 @@ const handleData = () => {
   })
 }
 
-onBeforeMount(() => {
-  handleData()
-})
-
 const getData = (pageSize, pageNum) => {
   const begin = pageSize * pageNum - pageSize
-  const end = pageSize * pageNum
+  let end = pageSize * pageNum
   if (Array.isArray(tableData.value)) {
+    if(end > tableData.value.length)
+    {
+      end = tableData.value.length
+    }
     pageData.value = tableData.value.slice(begin, end)
   } else {
-
+    console.error('tableData is not an array');
   }
 }
-getData(queryForm.value.pagesize, queryForm.value.pagenum)
+
+onBeforeMount(() => {
+  handleData()
+  getData(queryForm.value.pagesize, queryForm.value.pagenum)
+  console.log(pageData.value)
+})
+
 
 const handleSizeChange = (pageSize) => {
   queryForm.value.pagenum = 1
