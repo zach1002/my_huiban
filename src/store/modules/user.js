@@ -8,7 +8,7 @@ const getDefaultState = () => {
     isLogin: false,
     userInfo: {
       name: '你好',
-      avatar: 'https://img0.baidu.com/it/u=1056811702,4111096278&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=500',
+      avatar: 'https://github.com/identicons/chucklu.png?w=500&h=500',
       email: 'nihao@test.com',
       phone: '1234567890',
       role: 1
@@ -61,7 +61,7 @@ const actions = {
         }
 
         commit('SET_IS_LOGIN', true)
-
+        localStorage.setItem('isLogged', 'true');
         const userInfo = getUserInfo(user)
         commit('SET_USER_INFO', userInfo)
         
@@ -99,6 +99,7 @@ const actions = {
       logout().then(response => {
         // removeToken() // must remove  token  first
         // resetRouter()
+        localStorage.setItem('isLogged', 'false');
         commit('RESET_STATE')
         resolve()
       }).catch(error => {
@@ -185,7 +186,7 @@ const actions = {
         const { data } = response
         const code = data.code // 业务状态码
         if (code !== 2000) {
-          const msg = data.message
+          const msg = data.message + ', ' + data.detail 
           reject(msg)
           return
         }
@@ -202,7 +203,7 @@ const actions = {
         const { data } = response
         const code = data.code // 业务状态码
         if (code !== 2000) {
-          const msg = data.message
+          const msg = data.message + ', ' + data.detail 
           reject(msg)
           return
         }

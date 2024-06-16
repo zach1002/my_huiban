@@ -9,12 +9,14 @@ const store = useStore()
 const props = defineProps({
     data: Array,
     columns: Array,
-    filterKey: String
+    filterKey: String,
+    isSubscribed: Boolean
 })
 
 // 初始化时，为每个数据项添加subscribed属性
 const initData = computed(() => {
-    return props.data.map(item => ({ ...item, subscribed: true }))
+    const { isSubscribed } = props
+    return props.data.map(item => ({ ...item, subscribed: isSubscribed }))
 })
 
 const visibleColumns = computed(() => {

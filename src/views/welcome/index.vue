@@ -46,7 +46,7 @@
 <!--      <el-table-column prop="type" label="Type" width="180"/>-->
 <!--      <el-table-column prop="fullName" label="FullName"/>-->
 <!--    </el-table>-->
-    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchQuery">
+    <GridDemo :data="pageData" :columns="gridColumns" :filter-key="searchQuery" :is-subscribed=false>
     </GridDemo>
     <el-pagination class="pagination"
                    v-model:current-page="queryForm.pagenum"

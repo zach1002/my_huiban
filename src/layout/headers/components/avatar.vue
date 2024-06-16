@@ -33,11 +33,15 @@ const squareUrl = computed(() => {
 });
 
 const logout = () => {
-  ElMessage.success({ message: '注销成功', duration: 1000 });
-          setTimeout(() => {
-            store.commit('user/SET_IS_LOGIN', false)
-            router.push('/welcome')
-          }, 1000);
+  store.dispatch('user/logout').then(() => {
+    setTimeout(() => {
+      ElMessage.success({ message: '注销成功', duration: 1000 });
+    }, 1000)
+    store.commit('user/SET_IS_LOGIN', false)
+    router.push('/welcome')
+  }).catch((msg) => {
+    ElMessage.error(msg)
+  })
 }
 
 const login = () => {
