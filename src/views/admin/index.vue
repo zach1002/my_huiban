@@ -29,7 +29,7 @@
   <el-card class="buttom-part">
     <el-row :gutter="20" class="header">
       <el-col :span="7">
-        <el-input :placeholder="'输入uid'" clearable v-model="searchInput.name"></el-input>
+        <el-input :placeholder="'输入uid'" clearable v-model="userId"></el-input>
       </el-col>
       <el-button type="primary" :icon="Delete" @click="handleDelete">删除用户</el-button>
     </el-row>
@@ -111,6 +111,8 @@ const handleCurrentChange = (pageNum) => {
 const searchInput = ref({
     name: ''
 })
+
+const userId = ref()
 
 const handleSearch = () => {
     let curData = ref([])

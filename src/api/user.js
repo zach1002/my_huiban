@@ -65,3 +65,10 @@ export const unsubscribeMeeting = (data) => {
     method: 'GET',
   })
 }
+
+export const searchUser = (data) => {
+  return request({
+    url: `/user/search?userName=${data}`,
+    method: 'GET',
+  })
+}

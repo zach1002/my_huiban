@@ -74,7 +74,7 @@ const personnelCount = ref(102400) // 假设这是从变量得到的数字
 const meetingCount = ref(81212)
 const searchQuery = ref('')
 
-const gridColumns = ['addr', 'fullName', 'publicer', 'level', 'isConference', 'type']
+const gridColumns = ['level', 'addr', 'fullName', 'url', 'publicer' , 'isConference', 'type']
 const queryForm = ref({
   pagenum: 1,
   pagesize: 10
