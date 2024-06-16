@@ -16,9 +16,7 @@
               </el-tab-pane>
 
               <el-tab-pane label="Subscribed" name="Subscribed">
-                <el-card>
-                  <!-- todo -->
-                </el-card>
+                  <subscribed ref="subscribedComponent"/>
               </el-tab-pane>
 
             </el-tabs>
@@ -42,31 +40,24 @@
 import { mapState } from 'vuex';
 import UserCard from './components/UserCard'
 import Account from './components/Account'
+import Subscribed from './components/Subscribed'
 
 export default {
   name: 'Profile',
-  components: { UserCard, Account },
+  components: { UserCard, Account, Subscribed },
   data() {
     return {
       activeTab: 'account',
-      subscribed: []
     }
   },
   methods: {
     handleTabClick(tab) {
-      if (tab.props.name === 'Subscribed') {
-        this.$store.dispatch('user/getsubscribedMeetings').then(res => {
-          if (res.length === 0) {
-            this.$message.info('You have not subscribed to any meetings')
-          }
-          this.subscribed = res
-          console.log(this.subscribed)
-        }).catch(err => {
-          this.$message.error(err.message)
-        })
+      if(tab.props.name === 'Subscribed') {
+        // this.$refs.subscribedComponent.update()
       }
     }
   },
+
   computed: {
     ...mapState({
       isLogin: state => state.user.isLogin

@@ -25,7 +25,8 @@ export default {
         name: null,
         email: null,
         phone: null,
-        avatar: null
+        avatar: null,
+        subscribed: []
     }
   },
   methods: {
@@ -59,6 +60,7 @@ export default {
         })
         })
       }
-  }
+  },
+  
 }
 </script>
