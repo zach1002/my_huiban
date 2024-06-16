@@ -37,3 +37,17 @@ export const profileUpdate = (data) => {
     data
   })
 }
+
+export const getUserNum = () => {
+  return request({
+    url: '/user/getUserNum',
+    method: 'GET'
+  })
+}
+
+export const getsubscribedMeetings = () => {
+  return request({
+    url: '/user/getsubscribedMeetings',
+    method: 'GET'
+  })
+}

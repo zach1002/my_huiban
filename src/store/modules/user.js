@@ -1,5 +1,5 @@
-import { login, logout, getInfo, profileUpdate } from '@/api/user'
-import store from '..'
+import { login, logout, getInfo, profileUpdate, getUserNum } from '@/api/user'
+import { getsubscribedMeetings } from '@/api/user'
 // import { getToken, setToken, removeToken } from '@/utils/auth'
 // import { resetRouter } from '@/router'
 
@@ -77,16 +77,16 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfo().then(response => {
         const { data } = response
+        const code = data.code // 业务状态码
+        const user = data.data // 用户信息
 
-        if (!data) {
-          return reject('Verification failed, please Login again.')
+        if (code !== 2000) {
+          return reject(data.message)
         }
 
-        const { name, avatar } = data
-
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
+        const userInfo = getUserInfo(user)
+        commit('SET_USER_INFO', userInfo)
+        resolve()
       }).catch(error => {
         reject(error)
       })
@@ -137,15 +137,46 @@ const actions = {
     })
   },
 
+  getUserNum({ commit }) {
+    return new Promise((resolve, reject) => {
+      getUserNum().then(response => {
+        const { data } = response
+        const code = data.code // 业务状态码
+        const userNum = data.data // 用户信息
 
-  // remove token
-  // resetToken({ commit }) {
-  //   return new Promise(resolve => {
-  //     removeToken() // must remove  token  first
-  //     commit('RESET_STATE')
-  //     resolve()
-  //   })
-  // }
+        if (code !== 2000) {
+          const msg = data.message + ', ' + data.detail 
+          reject(msg)
+          return
+        }
+
+        resolve(userNum)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+
+  getsubscribedMeetings({ commit }) {
+    // alert('getsubscribedMeetings')
+    return new Promise((resolve, reject) => {
+      getsubscribedMeetings().then(response => {
+        const { data } = response
+        const code = data.code // 业务状态码
+        const subscribedMeetings = data.data // 用户信息
+
+        if (code !== 2000) {
+          const msg = data.message + ', ' + data.detail 
+          reject(msg)
+          return
+        }
+        resolve(subscribedMeetings)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  }
 }
 
 export default {

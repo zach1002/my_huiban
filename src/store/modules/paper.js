@@ -1,4 +1,4 @@
-import { listPartern, listAll } from '@/api/paper'
+import { listPartern, listAll, getPaperNum } from '@/api/paper'
 import store from '..'
 
 const getDefaultState = () => {
@@ -53,7 +53,7 @@ const actions = {
     })
   },
 
-  // get user info
+  // get paper info
   listAll ({
     commit,
     state
@@ -73,6 +73,24 @@ const actions = {
         commit('SET_TABLE_DATA', arr)
         console.log(store.getters.tableData)
         resolve()
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  getPaperNum ({commit}) {
+    return new Promise((resolve, reject) => {
+      getPaperNum().then(response => {
+        const { data } = response
+        const code = data.code
+        const paperNum = data.data
+        if (code !== 2000) {
+          const msg = data.message + ', ' + data.detail
+          reject(msg)
+          return
+        }
+        resolve(paperNum)
       }).catch(error => {
         reject(error)
       })

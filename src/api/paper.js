@@ -14,3 +14,10 @@ export const listAll = () => {
     method: 'GET'
   })
 }
+
+export const getPaperNum = () => {
+  return request({
+    url: '/paper/getPaperNum',
+    method: 'GET'
+  })
+}

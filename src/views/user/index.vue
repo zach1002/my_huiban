@@ -9,7 +9,7 @@
 
         <el-col :span="18" :xs="24">
           <el-card>
-            <el-tabs v-model="activeTab">
+            <el-tabs v-model="activeTab" @tab-click="handleTabClick">
 
               <el-tab-pane label="Account" name="account">
                 <account  />
@@ -48,7 +48,23 @@ export default {
   components: { UserCard, Account },
   data() {
     return {
-      activeTab: 'account'
+      activeTab: 'account',
+      subscribed: []
+    }
+  },
+  methods: {
+    handleTabClick(tab) {
+      if (tab.props.name === 'Subscribed') {
+        this.$store.dispatch('user/getsubscribedMeetings').then(res => {
+          if (res.length === 0) {
+            this.$message.info('You have not subscribed to any meetings')
+          }
+          this.subscribed = res
+          console.log(this.subscribed)
+        }).catch(err => {
+          this.$message.error(err.message)
+        })
+      }
     }
   },
   computed: {

@@ -97,6 +97,18 @@ const handleData = () => {
   }).catch((msg) => {
     ElMessage.error(msg)
   })
+
+  store.dispatch('user/getUserNum').then((res) => {
+    personnelCount.value = res
+  }).catch((msg) => {
+    ElMessage.error(msg)
+  })
+
+  store.dispatch('paper/getPaperNum').then((res) => {
+    meetingCount.value = res
+  }).catch((msg) => {
+    ElMessage.error(msg)
+  })
 }
 
 onBeforeMount(() => {
