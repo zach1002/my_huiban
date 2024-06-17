@@ -21,3 +21,17 @@ export const getPaperNum = () => {
     method: 'GET'
   })
 }
+
+export const getJournalNum = () => {
+  return request({
+    url: '/paper/getJournalNum',
+    method: 'GET'
+  })
+}
+
+export const getConferenceNum = () => {
+  return request({
+    url: '/paper/getConferenceNum',
+    method: 'GET'
+  })
+}

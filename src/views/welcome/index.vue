@@ -31,6 +31,22 @@
         </div>
       </div>
     </el-card>
+
+    <el-card class="card">
+      <div class="data-card">
+        <div class="png-container">
+          <img src="@/assets/images/journal.png" alt="people" class="peoplePng">
+        </div>
+        <div class="text-container">
+          <div class="title-container">
+            <h3 class="title">{{$t('welcome.journal')}}</h3>
+          </div>
+          <div class="number-container">
+            {{ journalCount }}
+          </div>
+        </div>
+      </div>
+    </el-card>
   </div>
 
   <el-card>
@@ -39,7 +55,7 @@
         <el-input :placeholder="$t('welcome.search')" clearable v-model="searchInput.name"></el-input>
       </el-col>
       <el-button type="primary" :icon="Search" @click="handleSearch">{{$t('welcome.search')}}</el-button>
-      <el-button type="primary" :icon="Refresh" @click="handleRefresh">重置</el-button>
+      <el-button type="primary" :icon="Refresh" @click="handleRefresh">{{$t('welcome.reset')}}</el-button>
     </el-row>
 
     <!--    <el-table :data="pageData" stripe style="width: 100%">-->
@@ -51,7 +67,7 @@
       operate-name="订阅" :operation="handleButtonClick" :default-state=false>
     </GridDemo>
     <el-pagination class="pagination" v-model:current-page="queryForm.pagenum" v-model:page-size="queryForm.pagesize"
-      :page-sizes="[10, 20, 30]" :small="small" :disabled="disabled" :background="background"
+      :page-sizes="[5, 10, 20, 30]" :small="small" :disabled="disabled" :background="background"
       layout="total, sizes, prev, pager, next, jumper" :total="tableData.length" @size-change="handleSizeChange"
       @current-change="handleCurrentChange" />
   </el-card>
@@ -67,6 +83,7 @@ import GridDemo from '@/components/Grid.vue'
 
 const personnelCount = ref(102400) // 假设这是从变量得到的数字
 const meetingCount = ref(81212)
+const journalCount = ref(24113)
 const searchQuery = ref('')
 
 const gridColumns = ['level', 'addr', 'fullName', 'url', 'publicer', 'isConference', 'typeName']
@@ -129,8 +146,14 @@ const handleData = () => {
     ElMessage.error(msg)
   })
 
-  store.dispatch('paper/getPaperNum').then((res) => {
+  store.dispatch('paper/getConferenceNum').then((res) => {
     meetingCount.value = res
+  }).catch((msg) => {
+    ElMessage.error(msg)
+  })
+
+  store.dispatch('paper/getJournalNum').then((res) => {
+    journalCount.value = res
   }).catch((msg) => {
     ElMessage.error(msg)
   })

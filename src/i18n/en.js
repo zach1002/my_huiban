@@ -24,7 +24,9 @@ export default {
   welcome: {
     people: 'Researchers',
     meeting: 'Meetings',
+    journal: 'Journals',
     search: 'Search',
+    reset: 'Reset',
   },
   user: {
     account: 'Account',

@@ -24,7 +24,9 @@ export default {
   welcome: {
     people: '科研人员',
     meeting: '会议',
+    journal: '期刊',
     search: '搜索',
+    reset: '重置',
   },
   user: {
     account: '账号',
